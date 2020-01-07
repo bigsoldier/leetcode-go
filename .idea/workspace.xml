@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8fa0c382-bb34-47f9-8e61-0eb67648d77a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithms/0001_Two_Sum/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/algorithms/0001_Two_Sum/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithms/0003_Longest_String/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/algorithms/0003_Longest_String/readme.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,13 +30,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/algorithms/0003_Longest_String/long_string.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="874">
-              <caret line="46" column="48" selection-start-line="46" selection-start-column="48" selection-end-line="46" selection-end-column="48" />
+            <state relative-caret-position="257">
+              <caret line="27" selection-start-line="27" selection-end-line="43" selection-end-column="1" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/algorithms/0005_Longest_Palindromic_Substring/longestSubstring.go">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="390">
@@ -45,12 +45,32 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/algorithms/0003_Longest_String/readme.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="FIRST">
+              <first_editor relative-caret-position="465">
+                <caret line="95" column="16" selection-start-line="95" selection-start-column="16" selection-end-line="95" selection-end-column="16" />
+                <folding>
+                  <element signature="e#57#125#0" />
+                  <element signature="e#137#199#0" />
+                  <element signature="e#211#320#0" />
+                  <element signature="e#355#833#0" />
+                  <element signature="e#1281#1703#0" />
+                  <element signature="e#1972#2284#0" />
+                </folding>
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/algorithms/0002_Two_Add/readme.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="FIRST">
-              <first_editor relative-caret-position="180">
-                <caret line="14" column="3" lean-forward="true" selection-start-line="14" selection-start-column="3" selection-end-line="14" selection-end-column="3" />
+              <first_editor relative-caret-position="266">
+                <caret line="14" column="3" selection-start-line="14" selection-start-column="3" selection-end-line="14" selection-end-column="3" />
               </first_editor>
               <second_editor />
             </state>
@@ -84,6 +104,7 @@
         <option value="$PROJECT_DIR$/algorithms/0004_Median_Of_Two_Sorted_Arrays/medianOfTwoSortedArrays.go" />
         <option value="$PROJECT_DIR$/algorithms/0005_Longest_Palindromic_Substring/longestSubstring.go" />
         <option value="$PROJECT_DIR$/algorithms/0002_Two_Add/readme.md" />
+        <option value="$PROJECT_DIR$/algorithms/0003_Longest_String/readme.md" />
       </list>
     </option>
   </component>
@@ -97,11 +118,11 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="305" />
-    <option name="y" value="110" />
-    <option name="width" value="1459" />
-    <option name="height" value="835" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-10" />
+    <option name="y" value="-10" />
+    <option name="width" value="1500" />
+    <option name="height" value="670" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -124,7 +145,7 @@
               <item name="leetcode-go" type="b2602c69:ProjectViewProjectNode" />
               <item name="leetcode-go" type="462c0819:PsiDirectoryNode" />
               <item name="algorithms" type="462c0819:PsiDirectoryNode" />
-              <item name="0002_Two_Add" type="462c0819:PsiDirectoryNode" />
+              <item name="0003_Longest_String" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="leetcode-go" type="b2602c69:ProjectViewProjectNode" />
@@ -211,10 +232,10 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14008042" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11461126" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -266,13 +287,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/leetcode/editor/en/[1]Two Sum.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="12" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/leetcode/editor/en/[1]Two Sum.go" />
     <entry file="file://$PROJECT_DIR$/algorithms/0001_Two_Sum/readme.md" />
     <entry file="file://$PROJECT_DIR$/algorithms/0001_Two_Sum/two_sum.go">
       <provider selected="true" editor-type-id="text-editor">
@@ -281,13 +296,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/leetcode/editor/en/[2]Add Two Numbers.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="14" lean-forward="true" selection-end-line="70" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/leetcode/editor/en/[2]Add Two Numbers.go" />
     <entry file="file://$PROJECT_DIR$/algorithms/0002_Two_Add/two_add_test.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1283">
@@ -302,20 +311,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/leetcode/editor/en/[3]Longest Substring Without Repeating Characters.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="39" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/leetcode/editor/en/[4]Median of Two Sorted Arrays.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="466">
-          <caret line="28" selection-start-line="28" selection-end-line="30" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/leetcode/editor/en/[3]Longest Substring Without Repeating Characters.go" />
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/leetcode/editor/en/[4]Median of Two Sorted Arrays.go" />
     <entry file="file://$PROJECT_DIR$/algorithms/0004_Median_Of_Two_Sorted_Arrays/medianOfTwoSortedArrays.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="447">
@@ -323,27 +320,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/leetcode/editor/en/[5]Longest Palindromic Substring.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="23" selection-end-column="1" />
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/leetcode/editor/en/[5]Longest Palindromic Substring.go" />
+    <entry file="file://$PROJECT_DIR$/algorithms/0002_Two_Add/readme.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="266">
+            <caret line="14" column="3" selection-start-line="14" selection-start-column="3" selection-end-line="14" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/algorithms/0003_Longest_String/long_string.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="874">
-          <caret line="46" column="48" selection-start-line="46" selection-start-column="48" selection-end-line="46" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/algorithms/0002_Two_Add/readme.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="FIRST">
-          <first_editor relative-caret-position="180">
-            <caret line="14" column="3" lean-forward="true" selection-start-line="14" selection-start-column="3" selection-end-line="14" selection-end-column="3" />
-          </first_editor>
-          <second_editor />
+        <state relative-caret-position="257">
+          <caret line="27" selection-start-line="27" selection-end-line="43" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -351,6 +342,24 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
           <caret line="37" column="8" selection-start-line="37" selection-start-column="8" selection-end-line="37" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/algorithms/0003_Longest_String/readme.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="465">
+            <caret line="95" column="16" selection-start-line="95" selection-start-column="16" selection-end-line="95" selection-end-column="16" />
+            <folding>
+              <element signature="e#57#125#0" />
+              <element signature="e#137#199#0" />
+              <element signature="e#211#320#0" />
+              <element signature="e#355#833#0" />
+              <element signature="e#1281#1703#0" />
+              <element signature="e#1972#2284#0" />
+            </folding>
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
