@@ -1,8 +1,49 @@
+#### 题目
+
+将一个给定的字符串根据给定的行数，以从上到下、从左到右进行 Z 字形排序。
+
+比如输入字符串为 *“LEETCODEISHIRING”* 行数为3，排列如下：
+
+```
+L	C	I	R
+E T O E S I	I G
+E	D	H	N
+```
+
+之后，需要从左到右逐行读取，结果为 “LCIRETOESIIGEDHN”
+
+**示例1：**
+
+```
+输入：s = "LEETCODEISHIRING", numRows = 3
+输出: "LCIRETOESIIGEDHN"
+```
+
+**示例2：**
+
+```
+输入: s = "LEETCODEISHIRING", numRows = 4
+输出: "LDREOEIIECIHNTSG"
+解释:
+
+L     D     R
+E   O E   I I
+E C   I H   N
+T     S     G
+```
+
 
 
 #### 题解
 1、找规律
-*Z* 字形很容易找到规律，假如 *numRows=3* ，那么周期为4；假如 *numRows=4* ，那么周期为6
+*Z* 字形很容易找到规律，假如 *numRows=3* ，那么周期为4；假如 *numRows=4* ，那么周期为6。
+
+那么第一行的字符索引为 *2 numRows -2*
+
+最后一行的字符索引为 *（2 numRows -2）+ numRows-1*
+
+内部的行 *i* 的字符索引为 *(2 numRows -2)+i* 和 *(2 numRows -2)-i*
+
 ```go
 func convert(s string, numRows int) string {
 	if 1 == numRows {
@@ -22,3 +63,8 @@ func convert(s string, numRows int) string {
 	return string(ret)
 }
 ```
+
+![](https://raw.githubusercontent.com/betterfor/cloudImage/master/images/2020-01-14/000601.png)
+
+2、按行排序
+
