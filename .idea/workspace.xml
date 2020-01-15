@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="8fa0c382-bb34-47f9-8e61-0eb67648d77a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/algorithms/0003_Longest_String/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/algorithms/0003_Longest_String/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithms/0006_ZigZag_Conversion/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/algorithms/0006_ZigZag_Conversion/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/algorithms/0006_ZigZag_Conversion/zigZagConversion.go" beforeDir="false" afterPath="$PROJECT_DIR$/algorithms/0006_ZigZag_Conversion/zigZagConversion.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,36 +29,14 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/algorithms/0003_Longest_String/long_string.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="257">
-              <caret line="27" selection-start-line="27" selection-end-line="43" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/algorithms/0005_Longest_Palindromic_Substring/longestSubstring.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="37" column="8" selection-start-line="37" selection-start-column="8" selection-end-line="37" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/algorithms/0003_Longest_String/readme.md">
+        <entry file="file://$PROJECT_DIR$/algorithms/0005_Longest_Palindromic_Substring/readme.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="FIRST">
-              <first_editor relative-caret-position="465">
-                <caret line="95" column="16" selection-start-line="95" selection-start-column="16" selection-end-line="95" selection-end-column="16" />
+              <first_editor relative-caret-position="437">
+                <caret line="49" column="8" selection-start-line="49" selection-start-column="8" selection-end-line="49" selection-end-column="8" />
                 <folding>
-                  <element signature="e#57#125#0" />
-                  <element signature="e#137#199#0" />
-                  <element signature="e#211#320#0" />
-                  <element signature="e#355#833#0" />
-                  <element signature="e#1281#1703#0" />
-                  <element signature="e#1972#2284#0" />
+                  <element signature="e#161#594#0" />
+                  <element signature="e#694#1090#0" />
                 </folding>
               </first_editor>
               <second_editor />
@@ -66,11 +45,33 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/algorithms/0002_Two_Add/readme.md">
+        <entry file="file://$PROJECT_DIR$/algorithms/0005_Longest_Palindromic_Substring/longestSubstring.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="513">
+              <caret line="27" column="5" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/algorithms/0006_ZigZag_Conversion/zigZagConversion.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="599">
+              <caret line="57" column="15" lean-forward="true" selection-start-line="57" selection-start-column="15" selection-end-line="57" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/algorithms/0006_ZigZag_Conversion/readme.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="FIRST">
-              <first_editor relative-caret-position="266">
-                <caret line="14" column="3" selection-start-line="14" selection-start-column="3" selection-end-line="14" selection-end-column="3" />
+              <first_editor relative-caret-position="123">
+                <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
+                <folding>
+                  <element signature="e#596#938#0" />
+                  <element signature="e#1045#1383#0" />
+                </folding>
               </first_editor>
               <second_editor />
             </state>
@@ -105,30 +106,26 @@
         <option value="$PROJECT_DIR$/algorithms/0005_Longest_Palindromic_Substring/longestSubstring.go" />
         <option value="$PROJECT_DIR$/algorithms/0002_Two_Add/readme.md" />
         <option value="$PROJECT_DIR$/algorithms/0003_Longest_String/readme.md" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectConfigurationFiles">
-    <option name="files">
-      <list>
-        <option value="$PROJECT_DIR$/.idea/leetcode-go.iml" />
-        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
-        <option value="$PROJECT_DIR$/.idea/misc.xml" />
-        <option value="$PROJECT_DIR$/.idea/modules.xml" />
+        <option value="$PROJECT_DIR$/algorithms/0004_Median_Of_Two_Sorted_Arrays/readme.md" />
+        <option value="$PROJECT_DIR$/algorithms/0005_Longest_Palindromic_Substring/readme.md" />
+        <option value="$PROJECT_DIR$/algorithms/0006_ZigZag_Conversion/readme.md.go" />
+        <option value="$PROJECT_DIR$/algorithms/0006_ZigZag_Conversion/zigZagConversion.go" />
+        <option value="$PROJECT_DIR$/algorithms/0006_ZigZag_Conversion/readme.md" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-10" />
-    <option name="y" value="-10" />
-    <option name="width" value="1500" />
-    <option name="height" value="670" />
+    <option name="x" value="806" />
+    <option name="y" value="365" />
+    <option name="width" value="960" />
+    <option name="height" value="560" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -141,23 +138,10 @@
               <item name="leetcode-go" type="462c0819:PsiDirectoryNode" />
               <item name="algorithms" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="leetcode-go" type="b2602c69:ProjectViewProjectNode" />
-              <item name="leetcode-go" type="462c0819:PsiDirectoryNode" />
-              <item name="algorithms" type="462c0819:PsiDirectoryNode" />
-              <item name="0003_Longest_String" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="leetcode-go" type="b2602c69:ProjectViewProjectNode" />
-              <item name="leetcode-go" type="462c0819:PsiDirectoryNode" />
-              <item name="algorithms" type="462c0819:PsiDirectoryNode" />
-              <item name="0005_Longest_Palindromic_Substring" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -235,7 +219,7 @@
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11461126" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.07506702" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -266,7 +250,9 @@
     <MESSAGE value="002、003" />
     <MESSAGE value="004" />
     <MESSAGE value="005" />
-    <option name="LAST_COMMIT_MESSAGE" value="005" />
+    <MESSAGE value="003.md" />
+    <MESSAGE value="004.md和005.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="004.md和005.md" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/notes/README.md">
@@ -277,18 +263,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/algorithms/0001_Two_Sum/two_sum_test.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="428">
-          <caret line="28" column="46" selection-start-line="28" selection-start-column="46" selection-end-line="28" selection-end-column="46" />
-          <folding>
-            <element signature="e#67#95#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Temp/leetcode/editor/en/[1]Two Sum.go" />
-    <entry file="file://$PROJECT_DIR$/algorithms/0001_Two_Sum/readme.md" />
     <entry file="file://$PROJECT_DIR$/algorithms/0001_Two_Sum/two_sum.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="608">
@@ -313,50 +288,121 @@
     </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Temp/leetcode/editor/en/[3]Longest Substring Without Repeating Characters.go" />
     <entry file="file://$USER_HOME$/AppData/Local/Temp/leetcode/editor/en/[4]Median of Two Sorted Arrays.go" />
-    <entry file="file://$PROJECT_DIR$/algorithms/0004_Median_Of_Two_Sorted_Arrays/medianOfTwoSortedArrays.go">
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/leetcode/editor/en/[5]Longest Palindromic Substring.go" />
+    <entry file="file://$PROJECT_DIR$/algorithms/0003_Longest_String/long_string.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="447">
-          <caret line="48" column="5" selection-start-line="48" selection-start-column="5" selection-end-line="48" selection-end-column="5" />
+        <state relative-caret-position="513">
+          <caret line="27" selection-start-line="27" selection-end-line="43" selection-end-column="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/leetcode/editor/en/[5]Longest Palindromic Substring.go" />
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/leetcode/editor/en/[6]ZigZag Conversion.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="523">
+          <caret line="41" column="25" selection-end-line="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/algorithms/0004_Median_Of_Two_Sorted_Arrays/medianOfTwoSortedArrays.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="27" selection-start-line="27" selection-end-line="49" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/algorithms/0004_Median_Of_Two_Sorted_Arrays/readme.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="1672">
+            <caret line="148" column="32" selection-start-line="148" selection-start-column="32" selection-end-line="148" selection-end-column="32" />
+            <folding>
+              <element signature="e#306#1245#0" />
+            </folding>
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/algorithms/0001_Two_Sum/two_sum_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="452">
+          <caret line="28" column="46" selection-start-line="28" selection-start-column="46" selection-end-line="28" selection-end-column="46" />
+          <folding>
+            <element signature="e#67#95#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/algorithms/0001_Two_Sum/readme.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="-456" />
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/algorithms/0002_Two_Add/readme.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="FIRST">
-          <first_editor relative-caret-position="266">
+          <first_editor relative-caret-position="-133">
             <caret line="14" column="3" selection-start-line="14" selection-start-column="3" selection-end-line="14" selection-end-column="3" />
           </first_editor>
           <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/algorithms/0003_Longest_String/long_string.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="27" selection-start-line="27" selection-end-line="43" selection-end-column="1" />
+    <entry file="file://$PROJECT_DIR$/algorithms/0003_Longest_String/readme.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="19">
+            <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+            <folding>
+              <element signature="e#57#125#0" />
+              <element signature="e#137#199#0" />
+              <element signature="e#211#320#0" />
+            </folding>
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/algorithms/0006_ZigZag_Conversion/readme.md.go" />
+    <entry file="file://$PROJECT_DIR$/algorithms/0005_Longest_Palindromic_Substring/readme.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="437">
+            <caret line="49" column="8" selection-start-line="49" selection-start-column="8" selection-end-line="49" selection-end-column="8" />
+            <folding>
+              <element signature="e#161#594#0" />
+              <element signature="e#694#1090#0" />
+            </folding>
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/algorithms/0005_Longest_Palindromic_Substring/longestSubstring.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="37" column="8" selection-start-line="37" selection-start-column="8" selection-end-line="37" selection-end-column="8" />
+        <state relative-caret-position="513">
+          <caret line="27" column="5" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/algorithms/0003_Longest_String/readme.md">
+    <entry file="file://$PROJECT_DIR$/algorithms/0006_ZigZag_Conversion/zigZagConversion.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="599">
+          <caret line="57" column="15" lean-forward="true" selection-start-line="57" selection-start-column="15" selection-end-line="57" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/algorithms/0006_ZigZag_Conversion/readme.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="FIRST">
-          <first_editor relative-caret-position="465">
-            <caret line="95" column="16" selection-start-line="95" selection-start-column="16" selection-end-line="95" selection-end-column="16" />
+          <first_editor relative-caret-position="123">
+            <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
             <folding>
-              <element signature="e#57#125#0" />
-              <element signature="e#137#199#0" />
-              <element signature="e#211#320#0" />
-              <element signature="e#355#833#0" />
-              <element signature="e#1281#1703#0" />
-              <element signature="e#1972#2284#0" />
+              <element signature="e#596#938#0" />
+              <element signature="e#1045#1383#0" />
             </folding>
           </first_editor>
           <second_editor />
