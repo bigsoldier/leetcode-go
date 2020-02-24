@@ -5,6 +5,7 @@ package leetcode
 
 import (
 	"fmt"
+	"github.com/betterfor/leetcode-go/algorithms/1-20"
 	"testing"
 )
 
@@ -76,13 +77,13 @@ func Test_Problem2(t *testing.T) {
 
 	for _, q := range qs {
 		_, p := q.ans2, q.para2
-		fmt.Printf("【input】:%v       【output】:%v\n", p, L2s(addTwoNumbers(S2l(p.one), S2l(p.another))))
+		fmt.Printf("【input】:%v       【output】:%v\n", p, L2s(__20.addTwoNumbers(S2l(p.one), S2l(p.another))))
 	}
 	fmt.Printf("\n\n\n")
 }
 
 // convert *ListNode to []int
-func L2s(head *ListNode) []int {
+func L2s(head *__20.ListNode) []int {
 	res := []int{}
 
 	for head != nil {
@@ -94,17 +95,17 @@ func L2s(head *ListNode) []int {
 }
 
 // convert []int to *ListNode
-func S2l(nums []int) *ListNode {
+func S2l(nums []int) *__20.ListNode {
 	if len(nums) == 0 {
 		return nil
 	}
 
-	res := &ListNode{
+	res := &__20.ListNode{
 		Val: nums[0],
 	}
 	temp := res
 	for i := 1; i < len(nums); i++ {
-		temp.Next = &ListNode{
+		temp.Next = &__20.ListNode{
 			Val: nums[i],
 		}
 		temp = temp.Next

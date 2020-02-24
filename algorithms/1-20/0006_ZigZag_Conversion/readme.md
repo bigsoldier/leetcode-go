@@ -65,6 +65,33 @@ func convert(s string, numRows int) string {
 ```
 
 ![](https://raw.githubusercontent.com/betterfor/cloudImage/master/images/2020-01-14/000601.png)
+时间复杂度：O(n)
+空间复杂度：O(n)
 
 2、按行排序
-
+建立一个行列表存放每行的数据，遍历原字符串，观察可以得出，移到最上面和最下面的时候，当前方向才会改变。
+0     6      12
+1   5 7   11 13
+2 4   8 10   14
+3     9      15
+```go
+func convert(s string, numRows int) string {
+	if numRows == 1 {
+		return s
+	}
+	var ret = make([]string,numRows)
+	var T = 2 * numRows - 2 // 周期（必定为偶数）
+	for index, bt := range []byte(s) {
+		rows := index % T
+		if rows > T/2 {
+			ret[T-rows] += string(bt)
+		} else {
+			ret[rows] += string(bt)
+		}
+	}
+	return strings.Join(ret,"")
+}
+```
+![](https://raw.githubusercontent.com/betterfor/cloudImage/master/images/2020-01-15/000602.png)
+时间复杂度：O(n)
+空间复杂度：O(n)
