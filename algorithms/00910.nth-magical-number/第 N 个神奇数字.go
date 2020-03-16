@@ -1,0 +1,5 @@
+package code
+
+func nthMagicalNumber(N int, A int, B int) int {
+
+}

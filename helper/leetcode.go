@@ -49,18 +49,18 @@ func GenerateFiles(rootPath, titleSlug string) error {
 }
 
 // 获取所有需要生成的文件
-func GenerateAllFiles() {
+func GenerateAllFiles(rootPath string) {
 	nums, items, err := GetProblemListsTranlation()
 	if err != nil {
 		return
 	}
 	fmt.Printf("will generate total:%d questions\n", nums)
 	for _, item := range items {
-		err = GenerateFiles("algorithms", item.TitleSlug)
+		err = GenerateFiles(rootPath, item.TitleSlug)
 		if err != nil {
 			fmt.Printf("ERROR:generate file [%s,%s] error:%v\n", item.QuestionId, item.TitleSlug, err)
 		} else {
-			fmt.Printf("generate question:[%s,%s] success", item.QuestionId, item.TitleSlug)
+			fmt.Printf("generate question:[%s,%s] success\n", item.QuestionId, item.TitleSlug)
 		}
 	}
 }
