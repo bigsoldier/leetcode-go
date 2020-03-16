@@ -1,0 +1,9 @@
+在该文件夹下新建config.yaml文件
+文件内容
+```
+Username: 
+Password: 
+Cookie: 
+```
+并将该文件加入.gitignore.
+其实只需要用到cookie,这个cookie是LEETCODE_SESSION,可以从随意的一个已登录的请求中cookie中找到LEETCODE_SESSION对应的值
