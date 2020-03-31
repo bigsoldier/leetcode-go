@@ -14,3 +14,29 @@
 
 
  #### 题解
+ 1、暴力法
+ 找出所有的子数组，然后累加和最大值进行比较
+ ```go
+func maxSubArray(nums []int) int {
+	if len(nums) == 1 {
+		return nums[0]
+	}
+	// 找到多个子数组
+	var max = math.MinInt64
+	for i := 0; i < len(nums); i ++ {
+		for j := i; j < len(nums); j++ {
+			var sum int
+			for k := i; k <= j; k++ {
+				sum+=nums[k]
+			}
+			if sum > max {
+				max = sum
+			}
+		}
+	}
+	return max
+}
+```
+时间复杂度O(n^3^),空间复杂度O(1),结果超时
+
+2、
