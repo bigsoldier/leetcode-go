@@ -39,4 +39,43 @@ func maxSubArray(nums []int) int {
 ```
 时间复杂度O(n^3^),空间复杂度O(1),结果超时
 
-2、
+2、贪心算法
+每次记录当前元素位置的最大和
+```go
+func maxSubArray(nums []int) int {
+	var cur,max = nums[0],nums[0]
+	for i := 1; i < len(nums); i++ {
+		sum := nums[i] + cur
+		if nums[i] < sum {
+			cur = sum
+		} else {
+			cur = nums[i]
+		}
+
+		if max < cur {
+			max = cur
+		}
+	}
+	return max
+}
+```
+![](https://raw.githubusercontent.com/betterfor/cloudImage/master/images/2020-04-07/005302.png)
+时间复杂度O(n),空间复杂度O(1)
+
+3、动态规划
+```go
+func maxSubArray(nums []int) int {
+	var sum = nums[0]
+	for i := 1; i < len(nums); i++ {
+		if nums[i-1] > 0 {
+			nums[i] += nums[i-1]
+		}
+		if  sum < nums[i] {
+			sum = nums[i]
+		}
+	}
+	return sum
+}
+```
+![](https://raw.githubusercontent.com/betterfor/cloudImage/master/images/2020-04-07/005303.png)
+时间复杂度O(n),空间复杂度O(1)
