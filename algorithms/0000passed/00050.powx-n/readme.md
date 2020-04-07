@@ -28,3 +28,43 @@
 
 
  #### 题解
+ 1、暴力法
+ ```go
+func myPow(x float64, n int) float64 {
+	var ret float64 = 1
+	if n < 0 {
+		x = 1/x
+		n = -n
+	}
+
+	for i := 0; i < n; i++ {
+		ret *= x
+	}
+	return ret
+}
+```
+时间超时。
+时间复杂度O(n),空间复杂度O(1)
+
+2、快速幂法
+x^2n^ = (x^n^)^2^
+```go
+func myPow(x float64, n int) float64 {
+	var ret float64 = 1
+	if n < 0 {
+		x = 1/x
+		n = -n
+	}
+
+	var current = x
+	for i := n; i > 0 ; i /= 2{
+		if i%2 == 1 {
+			ret *= current
+		}
+		current *= current
+	}
+	return ret
+}
+```
+![](https://raw.githubusercontent.com/betterfor/cloudImage/master/images/2020-03-30/005001.png)
+时间复杂度O(n),空间复杂度O(1)
