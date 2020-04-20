@@ -15,3 +15,26 @@
 
 
  #### 题解
+ 先去除字符串右边可能存在的空格，然后再从右向左遍历找到空格，计数
+ ```go
+func lengthOfLastWord(s string) int {
+	// 去除右边的空格
+	//s = strings.TrimRight(s," ") // 等价于下面的代码
+	for i := len(s) - 1; i >= 0; i-- {
+		if s[i] != ' ' {
+			s = s[:i+1]
+			break
+		}
+	}
+	var count int
+	for i := len(s) - 1; i >= 0; i-- {
+		if s[i] == ' ' {
+			break
+		}
+		count++
+	}
+	return count
+}
+```
+![](https://raw.githubusercontent.com/betterfor/cloudImage/master/images/2020-04-16/005801.png)
+时间复杂度O(n),空间复杂度O(1)
