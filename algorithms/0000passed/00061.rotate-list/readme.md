@@ -22,3 +22,30 @@
 
 
  #### 题解
+ 闭环
+ 先让链表形成一个闭环，然后移动索引，然后再断开
+ ```go
+func rotateRight(head *ListNode, k int) *ListNode {
+	if head == nil || k == 0 {
+		return head
+	}
+
+	// 形成闭环
+	oldHead := head
+	var length int
+	for length = 1; oldHead.Next != nil; length++ {
+		oldHead = oldHead.Next
+	}
+	oldHead.Next = head
+
+	newTail := head
+	for i := 0; i < length-k%length-1; i++ {
+		newTail = newTail.Next
+	}
+	newHead := newTail.Next
+	newTail.Next = nil
+	return newHead
+}
+```
+![](https://raw.githubusercontent.com/betterfor/cloudImage/master/images/2020-04-17/006101.png)
+时间复杂度O(n),空间复杂度O(1)
