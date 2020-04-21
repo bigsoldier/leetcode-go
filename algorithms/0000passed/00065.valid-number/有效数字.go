@@ -49,6 +49,9 @@ func isUnsignedNumber(s string, hasDot bool) bool {
 }
 
 func isInterger(s string) bool {
+	if len(s) == 0 {
+		return false
+	}
 	// 去符号
 	if s[0] == '+' || s[0] == '-' {
 		return isUnsignedInterger(s[1:])
@@ -62,7 +65,7 @@ func isUnsignedInterger(s string) bool {
 	}
 	for _, c := range s {
 		switch {
-		case c < '0' && c > '9':
+		case c < '0' || c > '9':
 			return false
 		}
 	}
