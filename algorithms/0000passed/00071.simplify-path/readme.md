@@ -47,3 +47,25 @@
 
 
  #### 题解
+ 对 '.' '..'分类讨论就行
+ ```go
+func simplifyPath(path string) string {
+	paths := strings.Split(path,"/")
+	var result []string
+	for _, p := range paths {
+		switch p {
+		case "",".":
+		case "..":
+			if len(result) != 0 {
+				result = result[:len(result)-1]
+			} else {
+				result = nil
+			}
+		default:
+			result = append(result, p)
+		}
+	}
+	return "/"+strings.Join(result,"/")
+}
+```
+ ![](https://raw.githubusercontent.com/betterfor/cloudImage/master/images/2020-04-23/007101.png)
