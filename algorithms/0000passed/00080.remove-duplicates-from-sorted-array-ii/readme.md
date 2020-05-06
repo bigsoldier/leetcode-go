@@ -39,3 +39,25 @@ for (int i = 0; i &lt; len; i++) {
 
 
  #### 题解
+ 原地置换
+ 因为数组是有序的，所以根据索引来遍历数组，如果nums[i]==nums[i-1],count++,如果count>2,说明有超过2个,可以删除重复的数字
+ ```go
+func removeDuplicates(nums []int) int {
+	var i,count = 1,1
+	for i < len(nums) {
+		if nums[i] == nums[i-1] {
+			count++
+		} else {
+			count = 1
+		}
+		if count > 2 {
+			nums = append(nums[:i], nums[i+1:]...)
+		} else {
+			i++
+		}
+	}
+	return len(nums)
+}
+```
+ ![](https://raw.githubusercontent.com/betterfor/cloudImage/master/images/2020-05-06/008001.png)
+ 时间复杂度O(n),空间复杂度O(1)
