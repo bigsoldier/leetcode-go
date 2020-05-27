@@ -55,3 +55,37 @@ r   g  ta  e
 
 
  #### 题解
+ 递归：遍历所有可能情况，分割点从1到n-1，s1分成[0,i)[i,n],对应的s2可能为[0,i)[i,n]或[0,n-i)[n-i,n]
+ ```go
+func isScramble(s1 string, s2 string) bool {
+	if s1 == s2 {
+		return true
+	}
+
+	// 检查字符是否相等
+	n := len(s1)
+	var chars = make([]int,256)
+	for i := 0; i < n; i++ {
+		chars[s1[i]] ++
+		chars[s2[i]] --
+	}
+	for _, char := range chars {
+		if char != 0 {
+			return false
+		}
+	}
+
+	// 检查字符串是否scramble
+	for i := 1; i < n; i++ {
+		if isScramble(s1[:i], s2[:i]) && isScramble(s1[i:], s2[i:]) {
+			return true
+		}
+		if isScramble(s1[:i], s2[n-i:]) && isScramble(s1[i:], s2[:n-i]) {
+			return true
+		}
+	}
+	return false
+}
+```
+ ![](https://raw.githubusercontent.com/betterfor/cloudImage/master/images/2020-05-27/008701.png)
+ 
