@@ -25,3 +25,32 @@
 
 
  #### 题解
+ 动态规划
+ dp[i+1] = dp[i]+dp[i-1]
+ 需要考虑字符为0的情况，如果是10或20可以获得字母，其他的都不成立
+ ```go
+func numDecodings(s string) int {
+	if s[0] == '0' {
+		return 0
+	}
+	var dp = make([]int,len(s)+1)
+	dp[0] = 1
+	dp[1] = 1
+	for i := 1; i < len(s); i++ {
+		if s[i] == '0' {
+			if s[i-1] == '1' || s[i-1] == '2' {
+				dp[i+1] = dp[i-1]
+			} else {
+				return 0
+			}
+		} else if (s[i-1] == '1' ) || s[i-1] == '2' && (s[i] >= '1' && s[i] <= '6') {
+			dp[i+1] = dp[i]+dp[i-1]
+		} else {
+			dp[i+1] = dp[i]
+		}
+	}
+	return dp[len(s)]
+}
+```
+ ![](https://raw.githubusercontent.com/betterfor/cloudImage/master/images/2020-06-03/009101.png)
+ 时间复杂度O(n),空间复杂度O(n)

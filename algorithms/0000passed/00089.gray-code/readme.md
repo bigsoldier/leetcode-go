@@ -32,3 +32,24 @@
 
 
  #### 题解
+ 动态规划
+ n=0 gray=[0]
+ n=1 gray=[0,1]
+ n=2 gray=[00,01,11,10]
+ 从这可以看出,n每增加1，都是在原来的基础上新增:0加正序,1加倒序,
+ 例如n=3时，gray(3)=(0+gray(2))+(1+gray(2))=[000,001,011,010,110,111,101,100]=[0,1,3,2,6,7,5,4]
+ ```go
+ func grayCode(n int) []int {
+ 	var gray = []int{0}
+ 	var head = 1
+ 	for i := 0; i < n; i++ {
+ 		for j := len(gray)-1; j >= 0; j-- {
+ 			gray = append(gray, head+gray[j])
+ 		}
+ 		head<<=1
+ 	}
+ 	return gray
+ }
+```
+ ![](https://raw.githubusercontent.com/betterfor/cloudImage/master/images/2020-06-03/008901.png)
+ 时间复杂度O(n^2^),空间复杂度O(1`)
