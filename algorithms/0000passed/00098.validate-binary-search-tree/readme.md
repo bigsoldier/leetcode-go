@@ -33,3 +33,22 @@
 
 
  #### 题解
+ 递归
+ 判断所有的节点是否在区间内
+ ```go
+func isValidBST(root *TreeNode) bool {
+	return isValid(root,math.MinInt64,math.MaxInt64)
+}
+
+func isValid(root *TreeNode, lower, upper int) bool {
+	if root == nil {
+		return true
+	}
+	if root.Val <= lower || root.Val >= upper {
+		return false
+	}
+	return isValid(root.Left,lower,root.Val) && isValid(root.Right,root.Val,upper)
+}
+```
+ ![](https://raw.githubusercontent.com/betterfor/cloudImage/master/images/2020-06-08/009801.png)
+ 时间复杂度O(n),空间复杂度O(n)

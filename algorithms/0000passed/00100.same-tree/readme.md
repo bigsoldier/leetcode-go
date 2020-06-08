@@ -37,3 +37,20 @@
 
 
  #### 题解
+ 递归
+ ```go
+func isSameTree(p *TreeNode, q *TreeNode) bool {
+	if p == nil && q == nil {
+		return true
+	}
+	if p == nil || q == nil {
+		return false
+	}
+	if p.Val != q.Val {
+		return false
+	}
+	return isSameTree(p.Left,q.Left) && isSameTree(p.Right,q.Right)
+}
+```
+ ![](https://raw.githubusercontent.com/betterfor/cloudImage/master/images/2020-06-08/010001.png)
+ 时间复杂度O(n),空间复杂度O(logn)
