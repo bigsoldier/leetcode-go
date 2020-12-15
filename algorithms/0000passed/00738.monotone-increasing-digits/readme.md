@@ -25,3 +25,34 @@
 
 
  #### 题解
+ 暴力：
+ 判断当前数字是否是递增的，然后N--
+ 贪心：
+ 从高到低位，第一个满足str[i]>str[i+1]，那么把str[i]-1，再把后面的位置置9.
+ 但是由于减少了str[i]后，可能不满足str[i-1]<str[i].
+ ```text
+ N = 2332
+ 输出：2299
+ ```
+ 这样需要遍历之前的位置
+ ```go
+func monotoneIncreasingDigits(N int) int {
+	s := []byte(strconv.Itoa(N))
+	i := 1
+	for i < len(s) && s[i-1] <= s[i] {
+		i++
+	}
+
+	if i < len(s) {
+		for i > 0 && s[i-1] > s[i] {
+			s[i-1]--
+			i--
+		}
+		for i++;i<len(s);i++ {
+			s[i] = '9'
+		}
+	}
+	ret,_ := strconv.Atoi(string(s))
+	return ret
+}
+```
