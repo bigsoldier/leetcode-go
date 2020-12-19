@@ -25,3 +25,33 @@
 
 
  #### 题解
+ 递归
+ ```go
+func pathSum(root *TreeNode, sum int) [][]int {
+	var nums [][]int
+	dfs(&nums,nil,root,sum)
+	return nums
+}
+
+func dfs(nums *[][]int, num []int, root *TreeNode, sum int) {
+	if root == nil {
+		return
+	}
+	sum -= root.Val
+    // 为防止指针问题
+	var slice = make([]int,len(num))
+	copy(slice,num)
+	slice = append(slice, root.Val)
+	if sum == 0 && root.Left == nil && root.Right == nil {
+		*nums = append(*nums, slice)
+		return
+	}
+	if root.Left != nil {
+		dfs(nums, slice,root.Left,sum)
+	}
+	if root.Right != nil {
+		dfs(nums,slice,root.Right,sum)
+	}
+}
+```
+ 时间复杂度O(n^2^),空间复杂度O(n)
