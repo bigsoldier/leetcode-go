@@ -20,3 +20,36 @@
 
 
  #### 题解
+ 题意：字典序最小，意味着最后获取到的不重复的字母顺序最小，例如，adcad最后的结果是acd
+ 
+ `cbacdcbc`的结果是acdb。
+ acd是增序且d只有一个。
+ 
+ ```go
+func removeDuplicateLetters(s string) string {
+	var left [26]int
+	for _,ch := range s {
+		left[ch-'a']++
+	}
+	var stack []byte
+	var inStack [26]bool
+	for i := range s {
+		ch := s[i]
+		if !inStack[ch-'a'] {
+			for len(stack) > 0 && ch < stack[len(stack)-1] {
+				last := stack[len(stack)-1] - 'a'
+				if left[last] == 0 {
+					break
+				}
+				stack = stack[:len(stack)-1]
+				inStack[last] = false
+			}
+			stack = append(stack, ch)
+			inStack[ch-'a'] = true
+		}
+		left[ch-'a']--
+	}
+	return string(stack)
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)
