@@ -30,3 +30,41 @@
 
 
  #### 题解
+ 动态规划
+ ```go
+func minCostClimbingStairs(cost []int) int {
+	var dp = make([]int,len(cost)+1)
+	dp[0],dp[1] = 0,0
+	for i := 2; i <= len(cost); i++ {
+		dp[i] = min(dp[i-1]+cost[i-1],dp[i-2]+cost[i-2])
+	}
+	return dp[len(cost)]
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)
+ 
+ 优化后
+ ```go
+func minCostClimbingStairs(cost []int) int {
+	var pre,cur int
+	for i := 2; i <= len(cost); i++ {
+		pre,cur = cur,min(pre+cost[i-2],cur+cost[i-1])
+	}
+	return cur
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+```
+ 时间复杂度O(n),空间复杂度O(1)
