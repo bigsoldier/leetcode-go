@@ -19,3 +19,18 @@
 
 
  #### 题解
+ ```go
+func generate(numRows int) [][]int {
+	var results = make([][]int,numRows)
+	for i := 0; i < numRows; i++ {
+		results[i] = make([]int,i+1)
+		results[i][0] = 1
+		results[i][i] = 1
+		for j := 1; j < i; j++ {
+			results[i][j] = results[i-1][j-1]+results[i-1][j]
+		}
+	}
+	return results
+}
+```
+ 时间复杂度O(n^2^2),空间复杂度O(n^2^),如果不考虑返回值的占用就是O(1)
