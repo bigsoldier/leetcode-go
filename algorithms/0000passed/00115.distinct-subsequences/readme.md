@@ -42,3 +42,56 @@
 
 
  #### 题解
+ 迭代
+ ```go
+func numDistinct(s string, t string) int {
+	if len(t) == 0 {
+		return 0
+	}
+	return distinct(s,t)
+}
+
+func distinct(s, t string) int {
+	var count int
+	if len(t) == 0 {
+		count+=1
+		return count
+	}
+	if len(s) < len(t) {
+		return 0
+	}
+	for i := 0; i < len(s); i++ {
+		if s[i] == t[0] {
+			count += distinct(s[i+1:],t[1:])
+		}
+	}
+	return count
+}
+```
+ 时间复杂度O(n^m^),空间复杂度O(1)
+ 
+ 动态规划
+ 
+ dp[i][j]表示t的第i个字符和s的第j个字符符合
+ ```go
+func numDistinct(s string, t string) int {
+	var dp = make([][]int,len(t)+1)
+	for i := 0; i < len(t)+1; i++ {
+		dp[i] = make([]int,len(s)+1)
+	}
+	for j := 0; j < len(s)+1; j++ {
+		dp[0][j] = 1
+	}
+	for i := 1; i <= len(t); i++ {
+		for j := 1; j <= len(s); j++ {
+			if t[i-1] == s[j-1] {
+				dp[i][j] = dp[i-1][j-1] + dp[i][j-1]
+			} else {
+				dp[i][j] = dp[i][j-1]
+			}
+		}
+	}
+	return dp[len(t)][len(s)]
+}
+```
+ 时间复杂度O(n*m),空间复杂度O(n*m)
