@@ -30,3 +30,33 @@
 
 
  #### 题解
+ 动态规划
+ ```go
+func maxProfit(prices []int) int {
+	if len(prices) == 0 {
+		return 0
+	}
+	var dp = make([][2]int,len(prices))
+	dp[0][1] = -prices[0]
+	for i := 1; i < len(prices); i++ {
+		dp[i][0] = max(dp[i-1][0],dp[i-1][1]+prices[i])
+		dp[i][1] = max(dp[i-1][1],dp[i-1][0]-prices[i])
+	}
+	return dp[len(prices)-1][0]
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)
+ 
+ 贪心
+ 
+ 实质上是找n个递增数组
+ ```go
+func maxProfit(prices []int) int {
+	var ans int
+	for i := 1; i < len(prices); i++ {
+		ans += max(0,prices[i]-prices[i-1])
+	}
+	return ans
+}
+```
+ 时间复杂度O(n),空间复杂度O(1)

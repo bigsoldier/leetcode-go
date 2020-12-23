@@ -22,3 +22,35 @@
 
 
  #### 题解
+ 暴力法
+ ```go
+func maxProfit(prices []int) int {
+	var profit int
+	for i := 0; i < len(prices); i++ {
+		for j := i; j < len(prices); j++ {
+			if prices[j] - prices[i] > profit {
+				profit = prices[j] - prices[i]
+			}
+		}
+	}
+	return profit
+}
+```
+ 时间复杂度O(n^2^),空间复杂度O(1)
+ 
+ 一次遍历
+ ```go
+func maxProfit(prices []int) int {
+	var minPrice, maxprofit = math.MaxInt32, 0
+	for i := 0; i < len(prices); i++ {
+		if prices[i] < minPrice {
+			minPrice = prices[i]
+		} else if prices[i]-minPrice > maxprofit {
+			maxprofit = prices[i] - minPrice
+		}
+	}
+	return maxprofit
+}
+
+```
+ 时间复杂度O(n),空间复杂度O(1)
