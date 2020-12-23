@@ -17,3 +17,18 @@ s = &quot;loveleetcode&quot;,
 
 
  #### 题解
+ ```go
+func firstUniqChar(s string) int {
+	var slice = make([]int,26)
+	for i := 0; i < len(s); i++ {
+		slice[s[i]-'a']++
+	}
+	for i := 0; i < len(s); i++ {
+		if slice[s[i]-'a'] == 1 {
+			return i
+		}
+	}
+	return -1
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)
