@@ -28,3 +28,31 @@
 
 
  #### 题解
+ 根据题意，路径至少包含一个节点，那么一个小的二叉树[1,2,3]能够获取到6个值，1,,2,3,1+2,1+3,1+2+3，
+ 把这个作为递归的基础，比较全局最大值
+ ```go
+func maxPathSum(root *TreeNode) int {
+	var val = math.MinInt32
+	pathSum(root,&val)
+	return val
+}
+
+func pathSum(node *TreeNode, maxSum *int) int {
+	if node == nil {
+		return 0
+	}
+	left := max(0,pathSum(node.Left,maxSum))
+	right := max(0,pathSum(node.Right, maxSum))
+	price := node.Val + left +right
+	*maxSum = max(*maxSum,price)
+	return node.Val + max(left,right)
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)
