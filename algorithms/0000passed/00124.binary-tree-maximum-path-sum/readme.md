@@ -28,3 +28,25 @@
 
 
  #### 题解
+ 将一个大的二叉树分成一个最小单元二叉树，[1,2,3]能获取到的值为1,2,3,4,5,6.
+ 总的来说就是它的左子树和右子树及自身的比较
+ ```go
+func maxPathSum(root *TreeNode) int {
+	var sum int
+	pathSum(root,&sum)
+	return sum
+}
+
+
+func pathSum(node *TreeNode, maxSum *int) int {
+	if node == nil {
+		return 0
+	}
+	left := max(0,pathSum(node.Left,maxSum))
+	right := max(0,pathSum(node.Right, maxSum))
+	price := node.Val + left +right
+	*maxSum = max(*maxSum,price)
+	return node.Val + max(left,right)
+}
+```
+ 时间复杂度O(n),空间复杂度O(1)
