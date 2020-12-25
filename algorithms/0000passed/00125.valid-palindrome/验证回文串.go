@@ -3,21 +3,19 @@ package code
 import "strings"
 
 func isPalindrome(s string) bool {
-	s = strings.ToLower(s)
-	var left, right = 0, len(s) - 1
-	for left < right {
-		for left < right && !isAlnum(s[left]) {
-			left++
+	if len(s) == 0 {
+		return true
+	}
+	var ret string
+	for i := 0; i < len(s); i++ {
+		if isAlnum(s[i]) {
+			ret += string(s[i])
 		}
-		for left < right && !isAlnum(s[right]) {
-			right--
-		}
-		if left < right {
-			if s[left] != s[right] {
-				return false
-			}
-			left++
-			right--
+	}
+	ret = strings.ToLower(ret)
+	for i := 0; i < len(ret)/2; i++ {
+		if ret[i] != ret[len(ret)-i-1] {
+			return false
 		}
 	}
 	return true
