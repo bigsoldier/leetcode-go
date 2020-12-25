@@ -1,5 +1,0 @@
-package code
-
-func findContentChildren(g []int, s []int) int {
-
-}
