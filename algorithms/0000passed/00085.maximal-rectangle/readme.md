@@ -112,3 +112,46 @@ func maximalRectangle(matrix [][]byte) int {
 ```
  ![](https://raw.githubusercontent.com/betterfor/cloudImage/master/images/2020-05-26/008502.png)
  时间复杂度O(nm),空间复杂度O(n)
+ 
+ 3、方法1的变种
+ ```go
+func maximalRectangle(matrix [][]byte) (ans int) {
+	if len(matrix) == 0 {
+		return 0
+	}
+	m,n := len(matrix),len(matrix[0])
+	left := make([][]int,m)
+    // 动态规划，获取每行的最大连续
+	for i, row := range matrix {
+		left[i] = make([]int,n)
+		for j, v := range row {
+			if v == '0' {
+				continue
+			}
+			if j == 0 {
+				left[i][j] = 1
+			} else {
+				left[i][j] = left[i][j-1]+1
+			}
+		}
+	}
+    // 计算面积
+    // 假设某列是1,2,3,4 那么面积[1*4,2*3,3*2,4*1]，通过这样来求出最大面积
+	for i, row := range matrix {
+		for j, v := range row {
+			if v == '0' {
+				continue
+			}
+			width := left[i][j]
+			area := width
+			for k := i-1; k >= 0; k-- {
+				width = min(width,left[k][j])
+				area = max(area,(i-k+1)*width)
+			}
+			ans = max(ans,area)
+		}
+	}
+	return
+}
+```
+ 时间复杂度O(n^2^m),空间复杂度O(nm)
