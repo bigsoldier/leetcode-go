@@ -14,3 +14,36 @@
 
 
  #### 题解
+ ```go
+func partition(s string) [][]string {
+	var result [][]string
+	part(s,0,len(s),nil,&result)
+	return result
+}
+
+func part(s string, start, end int, ret []string, result *[][]string) {
+	if start == end {
+		*result = append(*result, ret)
+		return
+	}
+	for i := start; i < end; i++ {
+		if !isParam(s, start, i) {
+			continue
+		}
+		part(s,i+1,end, append(ret, s[start:i+1]),result)
+	}
+}
+
+// 是否是回文字符
+func isParam(str string, start, end int) bool {
+	for start < end {
+		if str[start] != str[end] {
+			return false
+		}
+		start++
+		end--
+	}
+	return true
+}
+```
+ 时间复杂度O(n^2^)，空间复杂度O(1)

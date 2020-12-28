@@ -33,7 +33,14 @@
  如果不是i天买入，那么第i-1天，我们手上持有股票，
  buy[i][j]=max{buy[i-1][j],sell[i-1][j]-prices[i]}
  
- 对于sell[i][j],如果
+ 对于sell[i][j],如果是第i天卖的，那么在第i-1天时，我们卖出股票，对应buy[i-1][j-1]+prices[i];如果不是第i天卖的，那么手上不持有股票。
+ sell[i][j]=max{sell[i-1][j],buy[i-1][j-1]+prices[i]}
+ 
+ 确定边界条件
+ 
+ buy[0][0]=-prices[0]
+ 
+ buy[0][j],sell[0][j]设置最小值
  ```go
 func maxProfit(k int, prices []int) int {
 	n := len(prices)
@@ -82,4 +89,48 @@ func min(a, b int) int {
 	return b
 }
 ```
- 时间复杂度O(n^2^),空间复杂度O(n^2^)
+ 时间复杂度O(n*min(n,k)),空间复杂度O(n*min(n,k))
+ 
+ 简化
+ ```go
+func maxProfit(k int, prices []int) int {
+	n := len(prices)
+	if n == 0 {
+		return 0
+	}
+	k = min(k,n/2)
+	buy,sell := make([]int,k+1),make([]int,k+1)
+	buy[0] = -prices[0]
+
+	for i := 1; i <= k; i++ {
+		buy[i] = math.MinInt64/2
+		sell[i] = math.MinInt64/2
+	}
+	for i := 1; i < n; i++ {
+		buy[0] = max(buy[0],sell[0]-prices[i])
+		for j := 1; j <= k; j++ {
+			buy[j] = max(buy[j],sell[j]-prices[i])
+			sell[j] = max(sell[j],buy[j-1]+prices[i])
+		}
+	}
+	return max(sell...)
+}
+
+func max(a ...int) int {
+	res := a[0]
+	for _, v := range a {
+		if v > res {
+			res = v
+		}
+	}
+	return res
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+```
+ 时间复杂度O(n*min(n,k)),空间复杂度O(n*min(n,k))
