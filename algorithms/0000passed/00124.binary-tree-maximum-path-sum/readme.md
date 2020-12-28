@@ -28,15 +28,14 @@
 
 
  #### 题解
- 将一个大的二叉树分成一个最小单元二叉树，[1,2,3]能获取到的值为1,2,3,4,5,6.
- 总的来说就是它的左子树和右子树及自身的比较
+ 根据题意，路径至少包含一个节点，那么一个小的二叉树[1,2,3]能够获取到6个值，1,,2,3,1+2,1+3,1+2+3，
+ 把这个作为递归的基础，比较全局最大值
  ```go
 func maxPathSum(root *TreeNode) int {
-	var sum int
-	pathSum(root,&sum)
-	return sum
+	var val = math.MinInt32
+	pathSum(root,&val)
+	return val
 }
-
 
 func pathSum(node *TreeNode, maxSum *int) int {
 	if node == nil {
@@ -48,5 +47,12 @@ func pathSum(node *TreeNode, maxSum *int) int {
 	*maxSum = max(*maxSum,price)
 	return node.Val + max(left,right)
 }
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
 ```
- 时间复杂度O(n),空间复杂度O(1)
+ 时间复杂度O(n),空间复杂度O(n)

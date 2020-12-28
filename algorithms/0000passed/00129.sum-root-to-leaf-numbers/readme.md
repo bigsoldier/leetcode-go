@@ -36,3 +36,55 @@
 
 
  #### 题解
+ 递归
+ ```go
+func sumNumbers(root *TreeNode) int {
+	return sumNums(root, 0)
+}
+
+func sumNums(node *TreeNode, preSum int) int {
+	if node == nil {
+		return 0
+	}
+	sum := preSum*10 + node.Val
+	if node.Left == nil && node.Right == nil {
+		return sum
+	}
+
+	return sumNums(node.Left, sum) + sumNums(node.Right, sum)
+}
+
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)
+ 
+ 循环
+ ```go
+func sumNumbers(root *TreeNode) (sum int) {
+	if root == nil {
+		return 0
+	}
+	q := []pair{{root,root.Val}}
+	for len(q) > 0 {
+		p := q[0]
+		q = q[1:]
+		left,right,num := p.node.Left,p.node.Right,p.num
+		if left==nil&&right==nil {
+			sum+=num
+		} else {
+			if left != nil {
+				q = append(q, pair{left,num*10+left.Val})
+			}
+			if right != nil {
+				q = append(q, pair{right,num*10+right.Val})
+			}
+		}
+	}
+	return 
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)

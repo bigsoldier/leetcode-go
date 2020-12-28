@@ -1,5 +1,7 @@
 package code
 
+import "math"
+
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -8,7 +10,6 @@ package code
  *     Right *TreeNode
  * }
  */
-
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
@@ -16,9 +17,9 @@ type TreeNode struct {
 }
 
 func maxPathSum(root *TreeNode) int {
-	var sum int
-	pathSum(root, &sum)
-	return sum
+	var val = math.MinInt32
+	pathSum(root, &val)
+	return val
 }
 
 func pathSum(node *TreeNode, maxSum *int) int {
