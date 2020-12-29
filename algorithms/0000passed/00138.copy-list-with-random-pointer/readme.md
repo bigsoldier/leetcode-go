@@ -55,3 +55,49 @@
 
 
  #### 题解
+ 回溯法
+ ```go
+func copyRandomList(head *Node) *Node {
+	var m = make(map[*Node]*Node)
+	var visit func(node *Node) *Node
+	visit = func(node *Node) *Node {
+		if node == nil {
+			return node
+		}
+		if v, ok := m[node]; ok {
+			return v
+		}
+		newNode := &Node{node.Val,&Node{},&Node{}}
+		m[node] = newNode
+		newNode.Next = visit(node.Next)
+		newNode.Random = visit(node.Random)
+		return newNode
+	}
+	return visit(head)
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)
+ 
+ ```go
+func copyRandomList(head *Node) *Node {
+	var m = make(map[*Node]*Node)
+	p := head
+	for p != nil {
+		m[p] = &Node{Val: p.Val}
+		p = p.Next
+	}
+	p = head
+	for p != nil {
+		node := m[p]
+		if p.Next != nil {
+			node.Next = m[p.Next]
+		}
+		if p.Random != nil {
+			node.Random = m[p.Random]
+		}
+		p = p.Next
+	}
+	return m[head]
+}
+```
+ 时间复杂度O(1),空间复杂度O(n)
