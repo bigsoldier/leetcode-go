@@ -71,3 +71,52 @@
 
 
  #### 题解
+ 深度搜索
+ ```go
+func cloneGraph(node *Node) *Node {
+	var visited = make(map[*Node]*Node)
+	var visit func(*Node) *Node
+	visit = func(node *Node) *Node {
+		if node == nil {
+			return node
+		}
+		if v, ok := visited[node]; ok {
+			return v
+		}
+		cloneNode := &Node{node.Val,[]*Node{}}
+		visited[node] = cloneNode
+		for _, n := range node.Neighbors {
+			cloneNode.Neighbors = append(cloneNode.Neighbors, visit(n))
+		}
+		return cloneNode
+	}
+	return visit(node)
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)
+
+ 广度搜索
+ ```go
+func cloneGraph(node *Node) *Node {
+	if node == nil {
+		return node
+	}
+	var visited = map[*Node]*Node{}
+	var queue = []*Node{node}
+	visited[node] = &Node{node.Val,[]*Node{}}
+	for len(queue) > 0 {
+		q := queue[0]
+		queue = queue[1:]
+		for _, n := range q.Neighbors {
+			if _, ok := visited[n]; !ok {
+				// 没有被访问过，添加进队列
+				visited[n] = &Node{n.Val,[]*Node{}}
+				queue = append(queue, n)
+			}
+			visited[q].Neighbors = append(visited[q].Neighbors, visited[n])
+		}
+	}
+	return visited[node]
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)
