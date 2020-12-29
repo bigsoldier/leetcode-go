@@ -48,3 +48,23 @@ cost = [3,4,3]
 
 
  #### 题解
+ 理解:到某个加油站出发后，到下一个加油站的油量一定大于0。
+ 那么我们可以将数组分成两段，一段是油量小于0的，一段是油量大于0的，最终结果要求这两段加起来大于等于0.
+ ```go
+func canCompleteCircuit(gas []int, cost []int) int {
+	var remains,debt,start int
+	for i := 0; i < len(gas); i++ {
+		remains += gas[i]-cost[i]
+		if remains < 0 {
+			start = i+1
+			debt+=remains
+			remains = 0
+		}
+	}
+	if remains + debt < 0 {
+		return -1
+	}
+	return start
+}
+```
+ 时间复杂度O(n),空间复杂度O(1)
