@@ -40,3 +40,37 @@
 
 
  #### 题解
+ 哈希表
+ ```go
+func hasCycle(head *ListNode) bool {
+	var nodeSet = map[*ListNode]bool{}
+	for head != nil {
+		if nodeSet[head] {
+			return true
+		}
+		nodeSet[head] = true
+		head = head.Next
+	}
+	return false
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)
+ 
+ 快慢指针
+ ```go
+func hasCycle(head *ListNode) bool {
+	if head == nil || head.Next == nil {
+		return false
+	}
+	var fast,slow = head.Next,head
+	for fast != slow {
+		if fast == nil || fast.Next == nil {
+			return false
+		}
+		slow = slow.Next
+		fast = fast.Next.Next
+	}
+	return true
+}
+```
+ 时间复杂度O(n),空间复杂度O(1)
