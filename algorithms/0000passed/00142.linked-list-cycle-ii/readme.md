@@ -41,3 +41,51 @@
 
 
  #### 题解
+ 哈希表
+ ```go
+func detectCycle(head *ListNode) *ListNode {
+	var nodeMap = map[*ListNode]bool{}
+	for head != nil {
+		if nodeMap[head] {
+			return head
+		}
+		nodeMap[head] = true
+		head = head.Next
+	}
+	return nil
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)
+ 
+ 快慢指针
+ 
+ 我们把链表分成3端，a是头到环处，b是环处到快慢指针相遇处，c是相遇处到入环处。
+ 那么我们可以得到慢指针走过a+b,
+ 快指针走过a+n(b+c)+b=a+(n+1)b+nc
+ 
+ 而快指针的速度是慢指针的2倍，所以我们得到等式:
+ 2(a+b)=a+(n+1)b+nc,简化为a=(n-1)b+nc=(n-1)(b+c)+c.
+ 
+ 也就是说当快慢指针相遇时，我们再额外用个指针从链表头开始，随后它和慢指针一起向后移动一个位置，最终会在入环处相遇。
+ ```go
+func detectCycle(head *ListNode) *ListNode {
+	slow,fast := head,head
+	for fast != nil {
+		slow = slow.Next
+		if fast.Next == nil {
+			return nil
+		}
+		fast = fast.Next.Next
+		if fast == slow {
+			p := head
+			for p != slow {
+				p = p.Next
+				slow = slow.Next
+			}
+			return p
+		}
+	}
+	return nil
+}
+```
+ 时间复杂度O(n),空间复杂度(1)
