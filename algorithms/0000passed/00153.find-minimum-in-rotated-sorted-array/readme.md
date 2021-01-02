@@ -19,3 +19,32 @@
 
 
  #### 题解
+ 升序的数组中间
+ ```go
+func findMin(nums []int) int {
+	min := nums[0]
+	for i:=1;i<len(nums);i++ {
+		if nums[i] < nums[i-1] {
+			return nums[i]
+		}
+	}
+	return min
+}
+```
+ 时间复杂度O(n),空间复杂度(1)
+ 
+ ```go
+func findMin(nums []int) int {
+	left,right := 0,len(nums)-1
+	for left < right {
+		mid := (left+right)/2
+		if nums[mid] > nums[right] {
+			left = mid+1
+		} else {
+			right = mid
+		}
+	}
+	return nums[left]
+}
+```
+ 时间复杂度O(logn),空间复杂度(1)
