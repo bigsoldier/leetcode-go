@@ -54,3 +54,23 @@ func reverseWords(s string) (ret string) {
 }
 ```
  时间复杂度O(n),空间复杂度O(n)
+ 
+ ```go
+func reverseWords(s string) (ret string) {
+	ans := []string{""}
+	for i := 0; i < len(s); i++ {
+		if s[i] == ' ' {
+			ans = append(ans, "")
+		} else {
+			ans[len(ans)-1] += string(s[i])
+		}
+	}
+	for i := len(ans)-1; i >= 0; i-- {
+		if ans[i] != "" {
+			ret += ans[i]+" "
+		}
+	}
+	return ret[:len(ret)-1]
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)
