@@ -26,3 +26,22 @@
 
 
  #### 题解
+ 会存在类似于[1,1,0,0,1,1]的这种例子,这种情况下找到中点没有办法判断舍弃哪一边，
+ 所以我们直接将右边界向左移来处理这种情况。
+ ```go
+func findMin(nums []int) int {
+	left,right := 0,len(nums)-1
+	for left < right {
+		mid := left + (right - left)/2
+		if nums[mid] > nums[right] {
+			left = mid+1
+		} else if nums[mid] < nums[right] {
+			right = mid
+		} else {
+			right--
+		}
+	}
+	return nums[left]
+}
+```
+ 时间复杂度O(logn),空间复杂度O(1)
