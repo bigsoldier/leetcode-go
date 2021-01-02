@@ -41,3 +41,16 @@
 
 
  #### 题解
+ 使用内嵌的函数
+ ```go
+func reverseWords(s string) (ret string) {
+	results := strings.Split(s," ")
+	for i := len(results)-1; i >= 0; i-- {
+		if results[i]!="" {
+			ret += results[i]+" "
+		}
+	}
+	return ret[:len(ret)-1]
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)

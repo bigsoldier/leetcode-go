@@ -34,3 +34,34 @@
 
 
  #### 题解
+ 1、移动滑动窗口，然后遍历滑动窗口的值
+ 时间复杂度O(n^2^),空间复杂度O(n)
+ 
+ 2、队列
+ ```go
+func maxSlidingWindow(nums []int, k int) []int {
+	q := []int{}
+	push := func(i int) {
+		for len(q) > 0 && nums[i] >= nums[q[len(q)-1]] {
+			q = q[:len(q)-1]
+		}
+		q = append(q, i)
+	}
+	for i := 0; i < k; i++ {
+		push(i)
+	}
+	n := len(nums)
+	ans := make([]int,1,n-k+1)
+	ans[0] = nums[q[0]]
+	for i := k; i < n; i++ {
+		push(i)
+		for q[0] <= i-k {
+			q = q[1:]
+		}
+		ans = append(ans, nums[q[0]])
+	}
+	return ans
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)
+ 
