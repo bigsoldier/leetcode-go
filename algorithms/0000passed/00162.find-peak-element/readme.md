@@ -27,3 +27,34 @@
 
 
  #### 题解
+ 1、线性扫描
+ 
+ 只需要找到峰值，那么只要当前值比下一个值大就行了
+ ```go
+func findPeakElement(nums []int) int {
+	for i := 0; i < len(nums)-1; i++ {
+		if nums[i] > nums[i+1] {
+			return i
+		}
+	}
+	return len(nums)-1
+}
+```
+ 时间复杂度O(n),空间复杂度O(1)
+ 
+ 2、二分法
+ ```go
+func findPeakElement(nums []int) int {
+	left,right := 0,len(nums)-1
+	for left < right {
+		mid := (left+right)/2
+		if nums[mid] > nums[mid+1] {
+			right = mid
+		}else {
+			left = left+1
+		}
+	}
+	return left
+}
+```
+ 时间复杂度O(logn),空间复杂度O(1)
