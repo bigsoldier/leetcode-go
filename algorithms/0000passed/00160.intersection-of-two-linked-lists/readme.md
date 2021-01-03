@@ -54,3 +54,33 @@
 
 
  #### 题解
+ 1、暴力法，遍历链表ab的所有节点是否存在相同
+ 时间复杂度O(mn),空间复杂度O(1)
+ 
+ 2、哈希表
+ 将链表a的所有节点放入哈希表中，检查链表b是否存在相同节点
+ 时间复杂度O(m+n),空间复杂度O(m)或O(n)
+ 
+ 3、相连链表，a和b如果相交，那么a+b和b+a最终也会相交
+ ```go
+func getIntersectionNode(headA, headB *ListNode) *ListNode {
+	l1,l2 := headA,headB
+	var hasLinkedToB,hasLinkedToA bool
+	for l1 != nil && l2 != nil {
+		if l1 == l2 {
+			return l2
+		}
+		l1,l2 = l1.Next,l2.Next
+		if l1 == nil &&!hasLinkedToB {
+			l1 = headB
+			hasLinkedToB = true
+		}
+		if l2 == nil &&!hasLinkedToA {
+			l2 = headA
+			hasLinkedToA = true
+		}
+	}
+	return nil
+}
+```
+ 时间复杂度O(m+n),空间复杂度O(1)
