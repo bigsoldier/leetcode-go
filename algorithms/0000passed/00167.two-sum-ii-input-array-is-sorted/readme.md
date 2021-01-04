@@ -18,3 +18,37 @@
 
 
  #### 题解
+ 前面有一道同名题，用的相同的方法
+ ```go
+func twoSum(numbers []int, target int) []int {
+	var m = map[int]int{}
+	for i := 0; i < len(numbers); i++ {
+		if v,ok := m[numbers[i]]; ok {
+			return []int{v,i+1}
+		}
+		m[target - numbers[i]] = i+1
+	}
+	return nil
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)
+ 
+ 因为数组是升序数组，我们可以使用
+ - 双指针
+ ```go
+func twoSum(numbers []int, target int) []int {
+	left, right := 0, len(numbers) - 1
+	for left < right {
+		sum := numbers[left] + numbers[right]
+		if sum == target {
+			return []int{left + 1, right + 1}
+		} else if sum < target {
+			left++
+		} else {
+			right--
+		}
+	}
+	return []int{-1, -1}
+}
+```
+ 时间复杂度O(n),空间复杂度O(1)
