@@ -31,3 +31,38 @@ iterator.hasNext(); // 返回 false</pre>
 
 
  #### 题解
+ 原树是一个二叉搜索树，所以我们只要前序遍历就能获取结果
+ 1、将root前序遍历的结果记录下来返回，但是空间复杂度是O(n),不是树的高度
+ 
+ 2、受控递归
+ ```go
+type BSTIterator struct {
+	stack []*TreeNode
+}
+
+func Constructor(root *TreeNode) BSTIterator {
+	it := BSTIterator{[]*TreeNode{}}
+	it.push(root)
+	return it
+}
+
+/** @return the next smallest number */
+func (this *BSTIterator) Next() int {
+	top := this.stack[len(this.stack)-1]
+	this.stack = this.stack[:len(this.stack)-1]
+	this.push(top.Right)
+	return top.Val
+}
+
+/** @return whether we have a next smallest number */
+func (this *BSTIterator) HasNext() bool {
+	return len(this.stack)>0
+}
+
+func (this *BSTIterator) push(root *TreeNode) {
+	for root != nil {
+		this.stack = append(this.stack, root)
+		root= root.Left
+	}
+}
+```
