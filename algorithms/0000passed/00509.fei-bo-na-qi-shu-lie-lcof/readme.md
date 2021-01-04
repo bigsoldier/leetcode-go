@@ -34,3 +34,34 @@ F(N) = F(N - 1) + F(N - 2), 其中 N &gt; 1.</pre>
 
 
  #### 题解
+ 递归
+ ```go
+func fib(n int) int {
+	if n == 0 {
+		return 0
+	}
+	if n == 1 {
+		return 1
+	}
+	return fib(n-1) + fib(n-2)
+}
+```
+
+ 动态规划
+ ```go
+func fib(n int) int {
+	f0,f1 := 0,1
+	if n == 0 {
+		return f0
+	}
+	if n == 1 {
+		return f1
+	}
+	for i := 2; i <= n; i++ {
+		tmp := f1
+		f1 = f0+f1
+		f0 = tmp
+	}
+	return f1
+}
+```
