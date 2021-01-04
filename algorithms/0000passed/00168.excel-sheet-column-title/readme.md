@@ -33,3 +33,15 @@
 
 
  #### 题解
+ 类似于 26 进制
+ ```go
+func convertToTitle(n int) (ans string) {
+	for n > 0 {
+		n--
+		ans = string('A'+n%26) + ans
+		n = n/26
+	}
+	return
+}
+```
+ 时间复杂度O(n),空间复杂度O(1)
