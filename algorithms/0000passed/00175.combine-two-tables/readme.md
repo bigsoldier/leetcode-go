@@ -35,3 +35,7 @@ AddressId 是上表主键
 
 
  #### 题解
+ select FirstName,LastName,City,State 
+ from Person left join Address 
+ on Person.PersonId = Address.PersonId;
+ 
