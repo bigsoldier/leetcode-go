@@ -29,3 +29,9 @@
 
 
  #### 题解
+ ```mysql
+select a.Score Score,
+(select count(distinct b.Score) from Scores b where b.Score>=a.Score) as `Rank`
+from Scores a
+order by a.Score desc
+```
