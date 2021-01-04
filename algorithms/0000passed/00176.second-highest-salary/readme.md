@@ -21,3 +21,28 @@
 
 
  #### 题解
+ 1、使用limit获取
+ ```mysql
+select distinct Salary 
+from Employee 
+order by Salary desc 
+limit 1 offset 1
+```
+因为本表可能只有一条记录，不能返回null，所以使用临时表
+ 
+ ```mysql
+select 
+(select distinct Salary 
+from Employee 
+order by Salary desc 
+limit 1 offset 1) as SecondHighestSalary
+```
+
+ 2、使用ifnull来判断
+ ```mysql
+select 
+ifnull ((select distinct Salary 
+from Employee 
+order by Salary desc 
+limit 1 offset 1),null) as SecondHighestSalary
+```
