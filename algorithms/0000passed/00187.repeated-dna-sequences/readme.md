@@ -12,3 +12,19 @@
 
 
  #### 题解
+ 1、哈希表
+ ```go
+func findRepeatedDnaSequences(s string) (ans []string) {
+	const L = 10
+	m := map[string]int{}
+	for i := 0; i < len(s)-L+1; i++ {
+		if v := m[s[i:i+L]]; v == 1 {
+			ans = append(ans, s[i:i+L])
+		}
+		m[s[i:i+L]]++
+	}
+	return 
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)
+ 
