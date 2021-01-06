@@ -39,3 +39,31 @@
 
 
  #### 题解
+ 1、移位
+ ```go
+func hammingWeight(num uint32) int {
+	var bits = 0
+	var mask uint32 = 1
+	for i := 0; i < 32; i++ {
+		if num&mask != 0 {
+			bits++
+		}
+		mask<<=1
+	}
+	return bits
+}
+```
+ 时间复杂度O(n),空间复杂度O(1)
+ 
+ 2、将二进制中最低位的1改成0
+ ```go
+func hammingWeight(num uint32) int {
+	var sum int
+	for num != 0 {
+		sum++
+		num &= num-1
+	}
+	return sum
+}
+```
+ 时间复杂度O(1),空间复杂度O(1)
