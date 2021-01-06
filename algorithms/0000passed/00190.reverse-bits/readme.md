@@ -33,3 +33,18 @@
 
 
  #### 题解
+ 1、逐位颠倒
+ ```go
+func reverseBits(num uint32) uint32 {
+	var ret = uint32(0)
+	power := uint32(31)
+	for num != 0 {
+		ret += (num & 1) << power
+		num = num >> 1
+		power--
+	}
+	return ret
+}
+```
+ 时间复杂度P(logn),空间复杂度O(1)
+ 
