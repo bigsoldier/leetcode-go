@@ -40,3 +40,84 @@
 
 
  #### 题解
+ 同207题
+ 1、广度优先算法
+ ```go
+func findOrder(numCourses int, prerequisites [][]int) []int {
+	var (
+		edges = make([][]int,numCourses)
+		indeg = make([]int,numCourses) // 该们课程的前置数量
+		result []int
+	)
+	for _, p := range prerequisites {
+		edges[p[1]] = append(edges[p[1]], p[0])
+		indeg[p[0]]++
+	}
+	var queue []int
+	for i, v := range indeg {
+		if v == 0 {
+			queue = append(queue, i)
+		}
+	}
+	for len(queue) > 0 {
+		q := queue[0]
+		queue = queue[1:]
+		result = append(result, q)
+		for _, e := range edges[q] {
+			indeg[e]--
+			if indeg[e] == 0 {
+				queue = append(queue, e)
+			}
+		}
+	}
+	if len(result) != numCourses {
+		return nil
+	}
+	return result
+}
+```
+ 时间复杂度O(n+m),空间复杂度O(n+m),n是课程数,m是先修课程数
+ 
+ 2、深度优先算法
+ ```go
+func findOrder(numCourses int, prerequisites [][]int) []int {
+	var (
+		edges = make([][]int,numCourses)
+		visited = make([]int,numCourses) // 0表示未搜索，1表示进行中，2表示已完成
+		valid = true // 是否无环
+		dfs func(i int)
+		result []int
+	)
+	for _, p := range prerequisites {
+		edges[p[1]] = append(edges[p[1]], p[0])
+	}
+	dfs = func(i int) {
+		visited[i] = 1
+		for _, v := range edges[i] {
+			if visited[v] == 0 {
+				dfs(v)
+				if !valid {
+					return
+				}
+			} else if visited[v] == 1 {
+				valid = false
+				return
+			}
+		}
+		visited[i] = 2
+		result = append(result, i)
+	}
+	for i := 0; i < numCourses && valid; i++ {
+		if visited[i] == 0 {
+			dfs(i)
+		}
+	}
+	if !valid {
+		return nil
+	}
+	for i := 0; i < len(result)/2; i++ {
+		result[i],result[len(result)-i-1] = result[len(result)-i-1],result[i]
+	}
+	return result
+}
+```
