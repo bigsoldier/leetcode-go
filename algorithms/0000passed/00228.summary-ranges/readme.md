@@ -15,3 +15,27 @@
 
 
  #### 题解
+ 从零号位出发，向右遍历，每次遇到相邻元素之间的差值大于1时，我们就找到一个区间。
+ ```go
+func summaryRanges(nums []int) (ans []string) {
+	for i := 0;i < len(nums); {
+		var j = i+1
+		var pre = nums[i]
+		prefix := strconv.Itoa(nums[i])
+		var suffix string
+		for j < len(nums) {
+			if nums[j]-pre == 1 {
+				pre = nums[j]
+				suffix = "->" + strconv.Itoa(nums[j])
+			} else {
+				break
+			}
+			j++
+		}
+		ans = append(ans, prefix+suffix)
+		i = j
+	}
+	return
+}
+```
+ 时间复杂度O(n),空间复杂度O(1)
