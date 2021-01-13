@@ -39,3 +39,38 @@
 
 
  #### 题解
+ 并查集
+ 
+ 如果两个顶点属于相同的连通分量，则说明在遍历到当前边之前，两个顶点已经连通，因此当前边导致环的出现
+ ```go
+func findRedundantConnection(edges [][]int) []int {
+	n := len(edges)
+	var fa = make([]int,n+1)
+	for i := 0; i < len(fa); i++ {
+		fa[i] = i
+	}
+	var find func(x int) int
+	find = func(x int) int {
+		if x != fa[x] {
+			fa[x] = find(fa[x])
+		}
+		return fa[x]
+	}
+	merge := func(x,y int) bool {
+		xRoot,yRoot := find(x),find(y)
+		if xRoot == yRoot {
+			return false
+		}
+		fa[xRoot] = yRoot
+		return true
+	}
+
+	for _, edge := range edges {
+		if !merge(edge[0], edge[1]) {
+			return edge
+		}
+	}
+	return nil
+}
+```
+ 时间复杂度O(nlogn),空间复杂度O(n)
