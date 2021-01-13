@@ -18,3 +18,17 @@
 
 
  #### 题解
+ 哈希表
+ ```go
+func containsNearbyDuplicate(nums []int, k int) bool {
+	var set = map[int]int{}
+	for i, num := range nums {
+		if set[num] != 0 && (i-set[num]+1) <= k {
+			return true
+		}
+		set[num] = i+1
+	}
+	return false
+}
+```
+ 时间复杂度O(n),空间复杂度O(min(n,k))
