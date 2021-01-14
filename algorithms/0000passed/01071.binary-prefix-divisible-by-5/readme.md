@@ -42,3 +42,34 @@
 
 
  #### 题解
+ 1、
+ ```go
+func prefixesDivBy5(A []int) (ans []bool) {
+	ans = make([]bool,len(A))
+	x := 0
+	for i, v := range A {
+		x = (x*2+v)%5
+		ans[i] = x==0
+	}
+	return ans
+}
+```
+ 时间复杂度O(n),空间复杂度O(1)
+ 
+ 2、优化
+ a+b = (a|b) + (a&b)<<1
+  
+ a+b使用位运算 a|b不考虑进位的情况
+ ```go
+func prefixesDivBy5(A []int) []bool {
+	var ans = make([]bool,len(A))
+	x := 0
+	for i, v := range A {
+		x = (x<<1|v)%5
+		ans[i] = x==0
+	}
+	return ans
+}
+```
+ 时间复杂度O(n),空间复杂度O(1)
+ 
