@@ -18,3 +18,33 @@
 
 
  #### 题解
+ 由于是完全二叉树，所以节点个数[2^h^,2^h+1^-1]
+ ```go
+func countNodes(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	var level int
+	for node := root; node.Left != nil ; node = node.Left {
+		level++
+	}
+	return sort.Search(1<<(level+1), func(k int) bool {
+		if k <= 1<<level {
+			return false
+		}
+		bits := 1<<(level-1)
+		node := root
+		for node != nil && bits > 0 {
+            // 父节点为i，左孩子是2*i+1,右孩子是2*i+2
+			if bits&k == 0 { 
+				node = node.Left
+			} else {
+				node = node.Right
+			}
+			bits >>=1
+		}
+		return node==nil
+	})-1
+}
+```
+ 时间复杂度O((logn)^2^),空间复杂度O(1)
