@@ -26,3 +26,14 @@
 
 
  #### 题解
+ 递归
+ ```go
+func invertTree(root *TreeNode) *TreeNode {
+	if root == nil {
+		return root
+	}
+	root.Left,root.Right = invertTree(root.Right),invertTree(root.Left)
+	return root
+}
+```
+ 时间复杂度O(n),空间复杂度O(n),空间由栈的深度决定，平均情况下O(logn)，最坏成链状为O(n)
