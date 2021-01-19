@@ -1,5 +1,5 @@
 package main
 
 func main() {
-	GenerateAllFiles("algorithms")
+	GenerateAllFiles("algorithms_copy")
 }
