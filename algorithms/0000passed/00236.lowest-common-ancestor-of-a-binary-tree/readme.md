@@ -34,3 +34,64 @@
 
 
  #### 题解
+ 1、递归
+ ```go
+func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	}
+
+	if root.Val == p.Val || root.Val == q.Val {
+		return root
+	}
+	left := lowestCommonAncestor(root.Left,p,q)
+	right := lowestCommonAncestor(root.Right,p,q)
+	if left != nil && right != nil {
+		return root
+	}
+	if left == nil {
+		return right
+	}
+	return left
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)
+ 
+ 2、存储父节点
+ 用哈希表存储每个节点的指针，从p节点开始向祖先移动，同样从q节点向祖先移动，
+ 如果有祖先被访问过，则意味着这是p和q共同的祖先。
+ ```go
+func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+	parent := map[int]*TreeNode{}
+	visited := map[int]bool{}
+
+	var dfs func(node *TreeNode)
+	dfs = func(node *TreeNode) {
+		if node == nil {
+			return
+		}
+		if node.Left != nil {
+			parent[node.Left.Val] = node
+			dfs(node.Left)
+		}
+		if node.Right != nil {
+			parent[node.Right.Val] = node
+			dfs(node.Right)
+		}
+	}
+	dfs(root)
+
+	for p != nil {
+		visited[p.Val] = true
+		p = parent[p.Val]
+	}
+	for q != nil {
+		if visited[q.Val] {
+			return q
+		}
+		q = parent[q.Val]
+	}
+	return nil
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)
