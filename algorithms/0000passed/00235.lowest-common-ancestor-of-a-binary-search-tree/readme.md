@@ -33,3 +33,53 @@
 
 
  #### 题解
+ 1、两次遍历
+ 根据p和q记录并比较他们的父节点
+ ```go
+func lowestCommonAncestor(root, p, q *TreeNode) (ans *TreeNode) {
+	pathP := getPath(root, p)
+	pathQ := getPath(root, q)
+	for i := 0; i < len(pathP) && i < len(pathQ) && pathP[i] == pathQ[i]; i++ {
+		ans = pathP[i]
+	}
+	return
+}
+
+func getPath(root, target *TreeNode) (path []*TreeNode) {
+	node := root
+	for node != target {
+		path = append(path, node)
+		if target.Val < node.Val {
+			node = node.Left
+		} else {
+			node = node.Right
+		}
+	}
+	path = append(path, node)
+	return
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)
+ 
+ 2、一次遍历
+ ```go
+func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+	head := root
+	for  {
+		if p.Val < head.Val && q.Val < head.Val {
+			head = head.Left
+		} else if p.Val > head.Val && q.Val > head.Val {
+			head = head.Right
+		} else {
+			return head
+		}
+	}
+}
+
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+```
+ 时间复杂度O(n),空间复杂度O(1)
