@@ -34,3 +34,11 @@
 
 
  #### 题解
+ 与下一个节点交换
+ ```go
+func deleteNode(node *ListNode) {
+	node.Val = node.Next.Val
+	node.Next = node.Next.Next
+}
+```
+ 时间复杂度O(1),空间复杂度O(1)
