@@ -51,3 +51,76 @@
 
 
  #### 题解
+ 1、找出被禁用的用户行程，然后再剔除
+ ```mysql
+# Write your MySQL query statement below
+SELECT T.request_at AS `Day`, 
+	ROUND(
+			SUM(
+				IF(T.STATUS = 'completed',0,1)
+			)
+			/ 
+			COUNT(T.STATUS),
+			2
+	) AS `Cancellation Rate`
+FROM Trips AS T
+JOIN Users AS U1 ON (T.client_id = U1.users_id AND U1.banned ='No')
+JOIN Users AS U2 ON (T.driver_id = U2.users_id AND U2.banned ='No')
+WHERE T.request_at BETWEEN '2013-10-01' AND '2013-10-03'
+GROUP BY T.request_at
+```
+
+ 2、
+ ```mysql
+SELECT T.request_at AS `Day`, 
+	ROUND(
+			SUM(
+				IF(T.STATUS = 'completed',0,1)
+			)
+			/ 
+			COUNT(T.STATUS),
+			2
+	) AS `Cancellation Rate`
+FROM trips AS T LEFT JOIN 
+(
+	SELECT users_id
+	FROM users
+	WHERE banned = 'Yes'
+) AS A ON (T.Client_Id = A.users_id)
+LEFT JOIN (
+	SELECT users_id
+	FROM users
+	WHERE banned = 'Yes'
+) AS A1
+ON (T.Driver_Id = A1.users_id)
+WHERE A.users_id IS NULL AND A1.users_id IS NULL AND T.request_at BETWEEN '2013-10-01' AND '2013-10-03'
+GROUP BY T.request_at
+```
+
+ 3、
+ ```mysql
+SELECT T.request_at AS `Day`, 
+	ROUND(
+			SUM(
+				IF(T.STATUS = 'completed',0,1)
+			)
+			/ 
+			COUNT(T.STATUS),
+			2
+	) AS `Cancellation Rate`
+FROM trips AS T
+WHERE 
+T.Client_Id NOT IN (
+	SELECT users_id
+	FROM users
+	WHERE banned = 'Yes'
+)
+AND
+T.Driver_Id NOT IN (
+	SELECT users_id
+	FROM users
+	WHERE banned = 'Yes'
+)
+AND T.request_at BETWEEN '2013-10-01' AND '2013-10-03'
+GROUP BY T.request_at
+```
