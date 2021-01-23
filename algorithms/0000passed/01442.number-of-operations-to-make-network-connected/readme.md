@@ -53,3 +53,75 @@
 
 
  #### 题解
+ 考虑什么情况下所有的计算机不能连接？当计算机数量为n时，连线少于n-1时，连接不上。
+ 1、深度优先
+ ```go
+func makeConnected(n int, connections [][]int) int {
+	if len(connections) < n-1 {
+		return -1
+	}
+	var graph = make([][]int,n)
+	for _,conn := range connections {
+		v,w := conn[0],conn[1]
+		graph[v] = append(graph[v],w)
+		graph[w] = append(graph[w],v)
+	}
+	var visited = make([]bool,n)
+	var dfs func(x int)
+	dfs = func(x int) {
+		visited[x] = true
+		for _,to := range graph[x] {
+			if !visited[to] {
+				dfs(to)
+			}
+		}
+	}
+	var cnt int
+	for i, v := range visited {
+		if !v {
+			cnt++
+			dfs(i)
+		}
+	}
+	return cnt-1
+}
+```
+ 时间复杂度O(m+n),空间复杂度O(m+n)
+ 
+ 2、并查集
+ ```go
+func makeConnected(n int, connections [][]int) int {
+	if len(connections) < n-1 {
+		return -1
+	}
+	var fa = make([]int,n)
+    var cnt int
+    for i := 0; i < n; i++  {
+        fa[i] = i
+    }
+    var find func(x int) int 
+    find = func(x int) int {
+        if x != fa[x] {
+            fa[x] = find(fa[x])
+        }
+        return fa[x]
+    }
+    merge := func(x,y int) {
+        fx,fy := find(x),find(y)
+        if fx != fy {
+            fa[fx] = fy
+        }
+    }
+    for _,conn := range connections {
+        merge(conn[0],conn[1])
+    }
+    for i := range fa {
+        if i == fa[i] {
+            cnt++
+        }
+    }
+
+	return cnt-1
+}
+```
+ 时间复杂度O(m*a(n)),m是数组conn的长度，a是阿克曼函数的反函数，空间复杂度O(n)
