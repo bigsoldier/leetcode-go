@@ -22,3 +22,23 @@
 
 
  #### 题解
+ ```go
+func findLengthOfLCIS(nums []int) int {
+    if len(nums) == 0 {
+        return 0
+    }
+    var cnt,max int
+    for i := 1;i < len(nums); i++ {
+        if nums[i] > nums[i-1] {
+            cnt++
+        } else {
+            cnt = 0
+        }
+        if cnt>max {
+            max = cnt
+        }
+    }
+    return max+1
+}
+```
+ 时间复杂度O(n),空间复杂度O(1)
