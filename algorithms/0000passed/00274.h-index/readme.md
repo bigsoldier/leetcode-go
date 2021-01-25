@@ -18,3 +18,59 @@
 
 
  #### 题解
+ 1、排序
+ ```go
+func hIndex(citations []int) int {
+	quickSort(citations,0,len(citations)-1)
+	var i int
+	for ; i < len(citations) && citations[len(citations)-i-1] > i; i++ {}
+	return i
+}
+
+func quickSort(nums []int, left, right int) {
+	if left < right {
+		mid := partition(nums,left,right)
+		quickSort(nums,left,mid-1)
+		quickSort(nums,mid+1,right)
+	}
+}
+
+func partition(nums []int, left, right int) int {
+	var i,j = left,left+1
+	for idx := j; idx <= right;idx++ {
+		if nums[idx] < nums[i] {
+			nums[j],nums[idx] = nums[idx],nums[j]
+			j++
+		}
+	}
+	nums[i],nums[j-1] = nums[j-1],nums[i]
+	return j-1
+}
+```
+ 时间复杂度O(nlogn),空间复杂度O(logn),如果使用堆排序则O(1)
+ 
+ 2、计数排序
+ ```go
+func hIndex(citations []int) int {
+	n := len(citations)
+	papers := make([]int,n+1)
+	// 计数
+	for _,c := range citations {
+		papers[min(n,c)]++
+	}
+	// 找出最大的k
+	k := n
+	for s := papers[n]; s < k; s+=papers[k] {
+		k--
+	}
+	return k
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)
