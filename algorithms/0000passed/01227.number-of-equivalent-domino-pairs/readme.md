@@ -26,3 +26,20 @@
 
 
  #### 题解
+ 反转就是前后调换，那么通过比较大小的方式来比较。
+ 题目，dominoes最大为9
+ ```go
+func numEquivDominoPairs(dominoes [][]int) (ans int) {
+	var dominoeSlice [100]int
+	for _, dominoe := range dominoes {
+		if dominoe[0] > dominoe[1]  {
+			dominoe[0],dominoe[1] = dominoe[1],dominoe[0]
+		}
+		num := dominoe[0]*10+dominoe[1]
+		ans += dominoeSlice[num]
+		dominoeSlice[num]++
+	}
+	return ans
+}
+```
+ 时间复杂度O(n),空间复杂度O(1)
