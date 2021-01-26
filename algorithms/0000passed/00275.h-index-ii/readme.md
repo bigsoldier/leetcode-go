@@ -29,3 +29,33 @@
 
 
  #### 题解
+ 1、一次遍历
+ ```go
+func hIndex(citations []int) int {
+	for i, citation := range citations {
+		if len(citations)-i <= citation {
+			return len(citations)-i
+		}
+	}
+	return 0
+}
+```
+ 时间复杂度O(n),空间复杂度O(1)
+ 
+ 2、二分法
+ ```go
+func hIndex(citations []int) int {
+	n := len(citations)
+	lo, hi := 0, n-1
+	for lo <= hi {
+		mid := lo + (hi-lo)/2
+		if citations[n-mid-1] > mid {
+			lo = mid + 1
+		} else {
+			hi = mid - 1
+		}
+	}
+	return lo
+}
+```
+ 时间复杂度O(logn),空间复杂度O(1)
