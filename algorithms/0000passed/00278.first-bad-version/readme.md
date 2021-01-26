@@ -17,3 +17,32 @@
 
 
  #### 题解
+ 1、线性扫描
+ ```go
+func firstBadVersion(n int) int {
+	for i := 1; i < n; i++ {
+		if isBadVersion(i) {
+			return i
+		}
+	}
+	return n
+}
+```
+ 时间复杂度O(n),空间复杂度O(1)
+ 
+ 2、二分法
+ ```go
+func firstBadVersion(n int) int {
+	lo, hi := 1, n
+	for lo < hi {
+		mid := lo + (hi-lo)/2
+		if isBadVersion(mid) {
+			hi = mid
+		} else {
+			lo = mid + 1
+		}
+	}
+	return lo
+}
+```
+ 时间复杂度O(logn),空间复杂度O(1)
