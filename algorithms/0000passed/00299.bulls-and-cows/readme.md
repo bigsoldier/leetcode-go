@@ -25,3 +25,55 @@
 
 
  #### 题解
+ 1、两次遍历
+ A的个数通过比较相同位置得出，B的个数通过比较其余位置得到
+ ```go
+func getHint(secret string, guess string) string {
+	var countS,countG [10]int
+	var A,B int
+	for i := 0; i < len(secret); i++ {
+		if secret[i] == guess[i] {
+			A++
+		} else {
+			countS[secret[i]-'0']++
+			countG[guess[i]-'0']++
+		}
+	}
+	for i := 0; i < 10; i++ {
+		B += min(countG[i],countS[i])
+	}
+	return strconv.Itoa(A) + "A" + strconv.Itoa(B) + "B"
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)
+ 
+ 2、一次遍历
+ ```go
+func getHint(secret string, guess string) string {
+	var count [10]int
+	var A,B int
+	for i := 0; i < len(secret); i++ {
+		if secret[i] == guess[i] {
+			A++
+		} else {
+			if count[secret[i]-'0'] < 0 {
+				B++
+			}
+			count[secret[i]-'0']++
+			if count[guess[i]-'0'] > 0 {
+				B++
+			}
+			count[guess[i]-'0']--
+		}
+	}
+	return strconv.Itoa(A) + "A" + strconv.Itoa(B) + "B"
+}
+```
+ 时间复杂度O(n),空间复杂度O(n)
