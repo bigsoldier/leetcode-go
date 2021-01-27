@@ -1,5 +1,0 @@
-package code
-
-func shortestToChar(S string, C byte) []int {
-
-}
