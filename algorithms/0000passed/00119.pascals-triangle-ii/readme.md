@@ -17,17 +17,68 @@
 
 
  #### 题解
- 正向加起来会改变当前的值，那么久反向累加
+ 1、递推关系
  ```go
 func getRow(rowIndex int) []int {
-	var result = make([]int,rowIndex+1)
-	result[0] = 1
-	for i := 1; i < rowIndex; i++ {
-		for j := i; j > 0; j-- {
-			result[j] += result[j-1]
-		}
-	}
-	return result
+    var rows = make([][]int,rowIndex+1)
+    for i := 0; i < rowIndex+1;i++ {
+        rows[i] = make([]int,i+1)
+        rows[i][0],rows[i][i] = 1,1
+        for j := 1;j < i;j++ {
+            rows[i][j] = rows[i-1][j-1] + rows[i-1][j]
+        }
+    }
+    return rows[rowIndex]
+}
+ ```
+ 时间复杂度O(k^2^),空间复杂度O(k^2^)
+ **优化**
+ 我们会发现计算i行时只会用到i-1行的数据，那么可以用到滚动数组的思想优化空间复杂度。
+ ```go
+func getRow(rowIndex int) []int {
+    var pre,cur []int
+    for i := 0; i <= rowIndex; i++ {
+        cur = make([]int,i+1)
+        cur[0],cur[i] = 1,1
+        for j := 1; j < i;j++ {
+            cur[j] = pre[j-1]+pre[j]
+        }
+        pre = cur
+    }
+    return pre
+}
+ ```
+ 时间复杂度O(k^2^),空间复杂度O(k)
+ **再优化**
+ 我们能够发现计算j项元素和上一行的j项元素和j-1项元素相加，因此我们可以倒着计算当行。
+ ```go
+func getRow(rowIndex int) []int {
+    var row = make([]int,rowIndex+1)
+    row[0] = 1
+    for i := 1; i <= rowIndex;i++ {
+        for j := i;j > 0;j-- {
+            row[j] += row[j-1]
+        }
+    }
+    return row
+}
+ ```
+ 时间复杂度O(k^2^),空间复杂度O(k)
+
+ 2、数学公式
+ 可以得到同一行的相邻组合数的关系
+$$
+C^m_n = C^{m-1}_n \times \frac{n-m+1}{m}
+$$
+ ，由于`C_0_ = 1`.
+ ```go
+func getRow(rowIndex int) []int {
+    var row = make([]int,rowIndex+1)
+    row[0] = 1
+    for i := 1;i <= rowIndex; i++ {
+        row[i] = row[i-1]*(rowIndex-i+1)/i
+    }
+    return row
 }
 ```
- 时间复杂度O(n^2^),空间复杂度O(n)
+ 时间复杂度O(k),空间复杂度O(k)
