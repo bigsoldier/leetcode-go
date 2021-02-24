@@ -41,4 +41,11 @@
 
 ### 21、并发读写会发生什么？如果避免
 
+### 22、uintptr和unsafe.Pointer的区别？
+- unsafe.Pointer只是单纯的通用指针类型，用于转换不同类型的指针，不可以参与指针的运算
+- uintptr用于指针运算，GC不把uintptr当指针，也就是说uintptr无法持有对象，uintptr类型的目标会被回收
+- unsafe.Pointer可以和普通指针进行相互转换
+- unsafe.Pointer可以和uintptr进行相互转换
+
+
 
