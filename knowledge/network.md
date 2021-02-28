@@ -1,4 +1,4 @@
-### 1、基本排序，哪些是稳定的
+### 1、
 
 ### 2、http 401,403
 
@@ -26,3 +26,4 @@ DNS在进行局域传输的时候使用TCP协议，其他时候使用UDP协议�
 ### 12、如果告诉客户端，响应的是什么数据类型？
 Context-Type
 
+https://thinkwon.blog.csdn.net/article/details/104903925
