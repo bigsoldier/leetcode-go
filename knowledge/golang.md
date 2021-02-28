@@ -58,18 +58,25 @@ golang在运行时存在两种队列，一种是全局队列，存放等待运�
 ## 4、go defer (for defer)
 
 ## 5、select可以用于什么？
+？？常用于监听IO操作，当IO操作发生时，触发响应的动作，每个case语句必须是一个IO操作
 
 ## 6、context包的作用
 
 ## 7、client如何实现长连接
 
 ## 8、主协程如何等其余协程完再操作
+1、使用channel通信
+2、使用waitgroup
+3、使用context
 
-## 9、slice、len，cap，共享，扩容
+## 9、slice和array对比，slice扩容原理
+同时通过append函数，slice底层数据结构是数组、len、cap组成。
 
 ## 10、map如何顺序读取
+map不能顺序读取，是因为他是无序的，想要有序读取，就要将key变成有序的。
+那么就需要将所有的key拿出来放到切片中排序，然后再取值
 
-## 11、实现set
+## 11、nil切片和空切片的区别
 
 ## 12、实现消息队列（多生产者，多消费者）
 
@@ -82,11 +89,11 @@ golang在运行时存在两种队列，一种是全局队列，存放等待运�
 
 ## 17、raft有什么特点
 
-## 18、当go服务部署到线上了，发现有内存泄露，该怎么处理
+## 18、
 
 ## 19、context的使用
 
-## 20、append的过程
+## 20、
 
 ## 21、并发读写会发生什么？如果避免
 
@@ -126,3 +133,12 @@ golang在运行时存在两种队列，一种是全局队列，存放等待运�
 ## 24、内存逃逸
 
 [内存逃逸](https://github.com/lifei6671/interview-go/blob/master/question/q019.md)
+
+## 25、golang的gc算法，gc三色标记法，混合写屏障
+[](https://cjq99419.github.io/%E5%85%B3%E4%BA%8Ejava%E5%92%8Cgolang%E7%9A%84gc/)
+
+## 26、源代码编译过程概述
+[](https://draveness.me/golang/docs/part1-prerequisite/ch02-compile/golang-compile-intro/)
+
+
+[可读](https://draveness.me/)

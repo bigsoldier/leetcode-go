@@ -75,7 +75,7 @@ unix提供一种机制可以保证父进程想知道子进程结束的状态信�
 
 ### 4、git文件版本，使用顺序，merge跟rebase
 
-### 5、epoll的原理
+### 5、select、epoll的原理
 
 ### 6、怎么查看一个程序是否正常运行？端口为801
 
@@ -87,3 +87,15 @@ unix提供一种机制可以保证父进程想知道子进程结束的状态信�
 
 ### 10、5种IO模型
 [](https://www.jianshu.com/p/486b0965c296)
+
+## 11、内存管理
+[](https://www.linuxprobe.com/programmer-must-read%EF%BC%9A-linux-memory-management.html)
+
+## 12、线程调度
+[](https://www.cnblogs.com/leisure_chn/p/10393707.html)
+
+
+## 13、进程、线程、协程
+内核态，用户态，上下文切换，栈空间管理
+
+## 14、Reactor设计模式
