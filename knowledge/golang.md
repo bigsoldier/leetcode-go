@@ -76,7 +76,23 @@ golang在运行时存在两种队列，一种是全局队列，存放等待运�
 
 ## 6、context包的作用
 
-## 7、
+## 7、client长连接
+
+1、golang强制短连接
+
+可以在请求头中加上`connection:close`,也可以设置`request`结构体`Close`变量为`true`。
+```go
+req,_ := http.NewRequest("Get","http://example.com",nil)
+req.Close = true
+```
+
+2、长连接
+
+golang client 默认开启，不设置主动断连，要保持长连接
+ - 需要主动关闭`resp.Body.Close()`
+ - 读完`body`里的数据，`ioutil.ReadAll(resp.body)`；`io.Copy(ioutil.Discard,resp.Body)
+ 
+ 可以通过`Transport`设置`DisableKeepAlives`关闭长连接，`MaxIdleConns`设置连接数，`MaxIdleConnsPerHost`控制连接host数
 
 ## 8、主协程如何等其余协程完再操作
 
@@ -88,6 +104,8 @@ golang在运行时存在两种队列，一种是全局队列，存放等待运�
 
 ## 9、slice和array对比，slice扩容原理
 
+nil切片和空切片的区别(分配空间)
+
 ？？ 同时通过append函数，slice底层数据结构是数组、len、cap组成。
 
 ## 10、map如何顺序读取
@@ -95,7 +113,7 @@ golang在运行时存在两种队列，一种是全局队列，存放等待运�
 map不能顺序读取，是因为他是无序的，想要有序读取，就要将key变成有序的。
 那么就需要将所有的key拿出来放到切片中排序，然后再取值
 
-## 11、nil切片和空切片的区别
+## 11、
 
 ## 12、实现消息队列（多生产者，多消费者）
 
@@ -152,6 +170,7 @@ map不能顺序读取，是因为他是无序的，想要有序读取，就要�
 
 ## 24、内存逃逸
 
+[](https://mp.weixin.qq.com/s/4YYR1eYFIFsNOaTxL4Q-eQ)
 [内存逃逸](https://github.com/lifei6671/interview-go/blob/master/question/q019.md)
 
 ## 25、
