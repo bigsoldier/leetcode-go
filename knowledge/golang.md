@@ -1,5 +1,11 @@
-## 1、CSP并发模型
-[go语言并发模型](https://www.cnblogs.com/sunsky303/p/9115530.html)
+## 1、golang的gc算法，gc三色标记法，混合写屏障
+**GC**：Garbage Collection（垃圾回收）
+
+
+
+
+
+[](https://cjq99419.github.io/%E5%85%B3%E4%BA%8Ejava%E5%92%8Cgolang%E7%9A%84gc/)
 
 ## 2、go的调度
 **GPM模型**
@@ -53,26 +59,39 @@ golang在运行时存在两种队列，一种是全局队列，存放等待运�
 [Golang调度器GMP原理与调度](https://learnku.com/articles/41728)
 
 ## 3、go struct能不能比较
+
 数组是可以比较的，切片、map，func是不能被比较的，如果结构体中包含这些就不能进行比较。
 
 ## 4、go defer (for defer)
 
 ## 5、select可以用于什么？
-？？常用于监听IO操作，当IO操作发生时，触发响应的动作，每个case语句必须是一个IO操作
+
+常用于监听IO操作，当IO操作发生时，触发响应的动作，每个case语句必须是一个IO操作
+
+1、所有channel表达式都会被求值，所有被发送的表达式都会被求值。求值顺序：自上而下，从左到右。。
+结果是选择一个发送或接受的channel，无论选择哪一个case进行操作，表达式都会被执行。
+
+2、如果有一个或多个IO操作可以完成，go运行时系统会随机选择一个执行，
+否则，如果有default分支，执行default分支语句，如果没有default分支，select会一直阻塞，直到至少有一个IO操作可以执行。
 
 ## 6、context包的作用
 
-## 7、client如何实现长连接
+## 7、
 
 ## 8、主协程如何等其余协程完再操作
+
 1、使用channel通信
+
 2、使用waitgroup
+
 3、使用context
 
 ## 9、slice和array对比，slice扩容原理
-同时通过append函数，slice底层数据结构是数组、len、cap组成。
+
+？？ 同时通过append函数，slice底层数据结构是数组、len、cap组成。
 
 ## 10、map如何顺序读取
+
 map不能顺序读取，是因为他是无序的，想要有序读取，就要将key变成有序的。
 那么就需要将所有的key拿出来放到切片中排序，然后再取值
 
@@ -81,6 +100,7 @@ map不能顺序读取，是因为他是无序的，想要有序读取，就要�
 ## 12、实现消息队列（多生产者，多消费者）
 
 ## 13、大文件排序
+
 多路快排，然后再归并。
 
 ## 15、怎么做服务发现的
@@ -134,8 +154,8 @@ map不能顺序读取，是因为他是无序的，想要有序读取，就要�
 
 [内存逃逸](https://github.com/lifei6671/interview-go/blob/master/question/q019.md)
 
-## 25、golang的gc算法，gc三色标记法，混合写屏障
-[](https://cjq99419.github.io/%E5%85%B3%E4%BA%8Ejava%E5%92%8Cgolang%E7%9A%84gc/)
+## 25、
+
 
 ## 26、源代码编译过程概述
 [](https://draveness.me/golang/docs/part1-prerequisite/ch02-compile/golang-compile-intro/)
