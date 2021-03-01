@@ -599,3 +599,7 @@ Innodb对于行查询使用next-key lock,是为了解决幻读问题。当查询
 * 要是系统B执行成功就ok了；要是系统B执行失败了，那么最大努力通知服务就定时尝试重新调用系统B `N`次，最终放弃
 
 [](https://xiaomi-info.github.io/2020/01/02/distributed-transaction/)
+
+## 26、mysql 线程池
+
+[](https://blog.csdn.net/u012662731/article/details/54375137)
