@@ -187,3 +187,11 @@ select、poll，epoll本质上都是同步IO，因为他们都需要在读写事
        [](https://www.cnblogs.com/leisure_chn/p/10393707.html)
 
 ## 11、Reactor设计模式
+
+
+## 12、现场的五种状态
+- 新建
+- 就绪
+- 运行
+- 阻塞
+- 死亡
