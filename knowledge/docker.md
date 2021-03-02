@@ -57,4 +57,10 @@ chroot是针对进程，而系统的其他部分仍运行在老的root目录
 - 减小镜像体积：删除不必要的依赖 `apt --no-install-recommends`；删除包管理工具缓存
 - 使用多阶段构建
 
+## 5、docker load 加载一个镜像，docker images查看不到的原因
+
+
+## 6、docker后端存储
+
+
 [docker 面试](https://www.jianshu.com/p/2de643caefc1)
