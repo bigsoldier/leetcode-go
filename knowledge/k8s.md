@@ -20,7 +20,9 @@ pause全称是infra容器，在pod启动时，pause容器是第一个被创建�
 
 ## 4、健康检查存活和就绪探针有什么区别
 
-## 5、deployment、statefulset和daemonset有什么区别
+## 5、deployment、statefulset有什么区别
+
+
 
 ## 6、crd和operator
 
@@ -38,3 +40,5 @@ flannel
 ## 12、service和ingress
 
 ## 13、etcd的raft
+
+[](https://zhuanlan.zhihu.com/p/91288179)
