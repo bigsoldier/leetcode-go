@@ -64,3 +64,7 @@ chroot是针对进程，而系统的其他部分仍运行在老的root目录
 
 
 [docker 面试](https://www.jianshu.com/p/2de643caefc1)
+
+## 7、docker预热
+
+没有平台之前，运维人员安装微服务的时候，需要先拉取镜像传到内网，然后再执行安装

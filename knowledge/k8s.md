@@ -74,7 +74,7 @@ Ready这个状态标识pod已经正常启动，并且可以对外提供服务。
 - livenessProbe(存活指针)：如果成功，说明pod的状态为running
 - readinessProbe（就绪指针）：
 
-## 5、deployment、statefulset和daemonset有什么区别
+## 5、deployment、statefulset有什么区别
 
 ## 6、crd和operator
 
@@ -146,3 +146,5 @@ block包括chunk，index，meta.json，tombstones。
 ## 12、service和ingress
 
 ## 13、etcd的raft
+
+[](https://zhuanlan.zhihu.com/p/91288179)
