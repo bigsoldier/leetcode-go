@@ -74,11 +74,25 @@ Ready这个状态标识pod已经正常启动，并且可以对外提供服务。
 - livenessProbe(存活指针)：如果成功，说明pod的状态为running
 - readinessProbe（就绪指针）：
 
+两种探针都支持三种方式探测
+- ExecAction：执行指定命令，如果成功，退出码为0则探测成功
+- HTTPGetAction：通过容器IP地址，端口及路径调用get方法，如果响应大于200且小于400，则认为容器健康
+- TCPSocketAction：通过容器IP和端口执行TCP检查，如果能建立TCP连接，则表明容器健康
+
 ## 5、deployment、statefulset有什么区别
+
+- deployment用来部署无状态服务，statefulset用来部署有状态服务
+- statefulset
+
+headles service的dns解析：service.namespace.svc.cluster.local
+pod的dns解析 hostname.service.namespace.svc.cluster.local
 
 ## 6、crd和operator
 
 ## 7、cni？k8s集群使用的网络插件
+
+
+
 flannel
 
 ## 8、为什么pod资源有request和limit
@@ -148,3 +162,7 @@ block包括chunk，index，meta.json，tombstones。
 ## 13、etcd的raft
 
 [](https://zhuanlan.zhihu.com/p/91288179)
+
+## 14、
+
+kubelet：操作docker等容器的核心，除了跟容器运行时打交道，在配置容器网络、管理容器数据卷，都需要操作宿主机

@@ -18,26 +18,9 @@
   如果事务执行失败或调用rollback，导致事务需要回滚，便可利用undo log中的信息将数据回滚到修改之前的样子。
   undo log属于逻辑日志，记录的是sql执行的相关信息。当发生回滚时，Innodb会根据undo log的内容做与之前相反的工作。
   
-- 持久性（Durability）：一个事务被提交之后，它对数据库中数据的改变是持久的，即时数据库发生故障也不应该对其有任何影响
-
-  Innodb作为mysql的存储引擎，数据是存放在磁盘中的，但如果每次读写都是需要磁盘IO，效率会很低。
-  为此，Innodb提供缓存(Buffer Pool)，Buffer Pool中包含了磁盘中部分数据页的映射，作为访问数据库的缓冲。
-  如果mysql宕机，buffer pool的数据没有更新到磁盘会导致数据的丢失。所以引入redo log。
-  当数据修改时，除了修改Buffer log中的数据，还会在redo log记录这次操作；当事务提交时，会调用fsync对redo log进行刷盘。
-  如果mysql宕机，重启时可以读取redo log中的数据对数据库进行恢复。而所有的修改先写入日志再更新到buffer pool，保证了数据不会因为mysql宕机而丢失
-  
-  **既然redo log也需要在事务提交将日志写入磁盘，为什么比直接将buffer log修改的数据写入磁盘(刷脏)更快？**
-  
-  * 刷脏是随机IO，因为每次修改的数据位置随机，但写redo log是追加操作，是顺序IO
-  * 刷脏是以数据页为单位，mysql默认页大小是16kb，一个page上的小修改都需要整页写入；redo log只包含真正写入的部分，无效IO大大减少
-  
-  **redo log和binlog**
-  
-  * 作用不同：redo log是故障恢复，保证mysql宕机不会影响持久性；binlog可基于时间点恢复数据、主从复制
-  * 层次不同：redo log是Innodb存储引擎实现的，binlog是mysql的服务器层实现的
-  * 内容不同：redo log是物理日志，内容基于磁盘的页；binlog是二进制，可能是sql语句、数据或两者
-  * 写入时机不同：redo log在事务提交时写入，binlog的写入时间相对多元
-  
+    
+- 一致性（Consistency）：执行事务前后，数据保持一致，多个事务对同一个数据读取的结果是相同的
+    
 - 隔离性（Isolation）：并发访问数据库时，一个用户的事物不被其他事务所干扰，各并发事务之间数据库时独立的。
 
   主要是两个事务的写操作之间的相互影响。来看并发情况下，读操作可能存在的问题：
@@ -49,10 +32,10 @@
   
   | 隔离级别                  | 脏读 | 不可重复读 | 幻读 |
   | ------------------------- | ---- | ---------- | ---- |
-  | Read Uncommitted 读未提交 | √    | √          | √    |
-  | Read Committed 读已提交   | ×    | √          | √    |
-  | Repeatable Read可重复读   | ×    | ×          | √    |
-  | Serializable 可串行化     | ×    | ×          | ×    |
+  | Read Uncommitted 读未提交 | 1    | 1          | 1    |
+  | Read Committed 读已提交   | 0    | 1          | 1    |
+  | Repeatable Read可重复读   | 0    | 0          | 1    |
+  | Serializable 可串行化     | 0    | 0          | 0    |
   
   **Innodb实现的MVCC避免了幻读问题** 在同一时刻，不同事务读取到的数据可能是不同的(即多版本)
   
@@ -60,9 +43,28 @@
   + 隐藏列：Innodb中每行数据都有隐藏列，隐藏列中包含了本行的事务id，指向undo log的指针等
   + 基于undo log的版本链：每条undo log会指向更早版本的undo log，从而形成一条版本链
   + ReadView：通过隐藏列和版本链，mysql可以将数据恢复到指定版本，但要具体恢复到哪个版本，需要根据readview来确定。
+
   
-- 一致性（Consistency）：执行事务前后，数据保持一致，多个事务对同一个数据读取的结果是相同的
+- 持久性（Durability）：一个事务被提交之后，它对数据库中数据的改变是持久的，即时数据库发生故障也不应该对其有任何影响
+
+  Innodb作为mysql的存储引擎，数据是存放在磁盘中的，但如果每次读写都是需要磁盘IO，效率会很低。
+  为此，Innodb提供缓存(Buffer Pool)，Buffer Pool中包含了磁盘中部分数据页的映射，作为访问数据库的缓冲。
+  如果mysql宕机，buffer pool的数据没有更新到磁盘会导致数据的丢失。所以引入redo log。
+  当数据修改时，除了修改Buffer log中的数据，还会在redo log记录这次操作；当事务提交时，会调用fsync对redo log进行刷盘。
+  如果mysql宕机，重启时可以读取redo log中的数据对数据库进行恢复。而所有的修改先写入日志再更新到buffer pool，保证了数据不会因为mysql宕机而丢失
   
+  **既然redo log也需要在事务提交将日志写入磁盘，为什么比直接将buffer log修改的数据写入磁盘(刷脏)更快？**
+  
+  + 刷脏是随机IO，因为每次修改的数据位置随机，但写redo log是追加操作，是顺序IO
+  + 刷脏是以数据页为单位，mysql默认页大小是16kb，一个page上的小修改都需要整页写入；redo log只包含真正写入的部分，无效IO大大减少
+  
+  **redo log和binlog**
+  
+  * 作用不同：redo log是故障恢复，保证mysql宕机不会影响持久性；binlog可基于时间点恢复数据、主从复制
+  * 层次不同：redo log是Innodb存储引擎实现的，binlog是mysql的服务器层实现的
+  * 内容不同：redo log是物理日志，内容基于磁盘的页；binlog是二进制，可能是sql语句、数据或两者
+  * 写入时机不同：redo log在事务提交时写入，binlog的写入时间相对多元
+
   
 
 [深入理解mysql事务](https://www.cnblogs.com/kismetv/p/10331633.html)

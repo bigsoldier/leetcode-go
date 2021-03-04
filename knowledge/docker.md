@@ -1,4 +1,4 @@
-## docker 核心原理
+## 1、docker 核心原理
 
 **限制的视图namespace**
 
@@ -13,10 +13,12 @@
 
 **限制资源cgroups：包括cpu、内存、磁盘、网络带宽等**
 
-- cpu
+- cpu，cpu.cfs_quota_us容量，cpu.cfs_period_us设置使用量
 - blkio，为块设备设定I/O限制，一般用于磁盘
 - cpuset，为进程分配独立的cpu核和对应的内存节点
 - memory，内存
+
+将被限制的进程PID写入tasks文件，上面的设置就会对进程生效了
 
 **rootfs**
 
@@ -25,6 +27,22 @@
 1、启动linux namespace配置
 2、设置指定的cgroups参数
 3、切换进程的根目录
+
+rootfs只是一个操作系统所包含的文件、配置和目录，并不包括操作系统
+
+**UFS(Union File System)联合文件系统**
+
+层（layer）：用户制作镜像的每一个操作，都会生成一个层，也就是一个增量rootfs
+
+UnionFS主要功能是将多个不同位置的目录联合挂载到同一个目录下。`mount -t aufs`
+
+容器的rootfs
+
+- 可读层：挂载方式是只读，`readonly+whiteout`.都以增量的方式包含了操作系统的一部分
+- 可读写层： rw，在没写入文件之前，这个目录是空的。而一旦在容器里做了写操作，修改的内容会以增量的方式出现在这个层中。
+可以使用docker commit和push指令，保存这个被修改过的可读写层，原先的只读层不会有任何变化。（为了实现删除可读层里的文件删除操作，aufs会创建一个whiteout文件，把只读层文件“遮挡”起来）
+- Init层：docker项目单独生成的内部层，专门用来存放/etc/hosts,/etc/resolv.conf等信息，这些文件本来属于只读层，
+但是用户需要在容器启动时写入一些指定的值比如hostname，这些修改只对当前容器生效，我们不希望在docker commit时把信息连同读写层一起提交掉。
 
 ## 2、pivot_root和chroot的区别
 pivot_root主要是把整个系统切换到一个新的root目录，而移除对之前root文件系统的依赖，这样你能够umount原先的root文件系统。
