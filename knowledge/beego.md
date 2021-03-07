@@ -18,6 +18,16 @@
 
 ## 5、遇到项目问题怎么处理
 
+现象：egret服务内存占用高，触发预警并自动重启
+
+猜想：
+- 频繁重复申请对象资源，查看pprof，查看内存，cpu，goroutine的使用
+- 不知名的内存泄露，top命令查看，VSZ指标高
+- prometheus的监控判别条件有问题，container_memory_working_set_bytes = RSS+Cache
+- 容器环境机制
+
+方法：自动删除镜像
+
 
 ## 6、一些问题点
 

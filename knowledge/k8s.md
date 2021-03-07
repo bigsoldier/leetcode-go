@@ -91,13 +91,32 @@ pod的dns解析 hostname.service.namespace.svc.cluster.local
 
 ## 7、cni？k8s集群使用的网络插件
 
+**flannel**
 
+- UDP
 
-flannel
+提供的其实是一个三层的Overlay网络：首先对发出端的IP包进行UDP封装，然后再接收端进行解封拿到原始的IP包，进而把这个IP包转发给目标容器。
+
+* 缺点：相比两台主机直接通信，多了flanneld的处理过程，而这个过程，由于使用了flannel0这个TUN设备(在操作系统内核和用户应用程序之间传递IP包),
+,仅在发出IP包的过程中，就需要经历三次用户态和内核态之间的数据拷贝
+
+- VXLAN(Virtual Extensible LAN虚拟可扩展局域网)
+
+是linux内核本身支持的一种网络虚拟化技术。
+
+- host-gw
 
 ## 8、为什么pod资源有request和limit
 
+request:容器使用的最小资源需求，只有当节点上可分配资源量>=容器资源请求数才允许将容器调度该节点。
+
+limit:容器能使用的资源的最大值
+
+如果内存超出限制，容器被被oom
+
 ## 9、一个请求到pod接受响应，经过哪些过程
+
+
 
 ## 10、prometheus监控架构？采集数据流向
 
@@ -147,22 +166,58 @@ block包括chunk，index，meta.json，tombstones。
 
 **核心组件**
 
-- etcd：保存了集群的状态
+**master节点**
+- etcd：保存了集群的状态，存储了所有的集群资源对象
 - apiserver：提供资源操作的唯一入口，并提供认证、授权、访问控制、api注册和发现等机制
 - controller manager负责维护集群的状态，比如故障检测、自动扩展、滚动更新等
 - scheduler负责资源的调度，按照预定的调度策略将pod调度到相应的机器上
+
+**node节点**
 - kubelet：负责维护容器的生命周期，同时也负责volume和cni的管理
 - container runtime：负责镜像管理以及pod和容器的真正运行（cni）
 - kube-proxy：负责为service提供cluster内部的服务发现和负载均衡
 
-
-
 ## 12、service和ingress
+
+**为什么需要service**
+- pod的ip不固定
+- pod需要负载均衡功能
+
+**基于iptables**
+
+kube-proxy通过iptables处理service的过程，需要在宿主机设置相当多的iptables规则，而且kube-proxy需要在控制循环里不断地刷新规则来确保是正确的。
+- 缺点：当宿主机上有大量pod的时候，成百上千的iptables规则不断的刷新，会占用宿主机的cpu资源
+
+**基于IPVS**
+
+kube-proxy会监视service和endpoints对象的添加和删除。创建service后会在宿主机创建一个虚拟网卡，并分配service VIP作为ip地址。
+
+基于iptables模式的Netfilter的NET模式，但是IPVS不需要在宿主机每个pod设置iptables规则，把规则的处理放到内核态，降低了维护规则的代价。
+
+IPVS提供了6种选项来平衡后端Pod的流量，包括rr: round-robin轮询，lc: least connection (smallest number of open connections)最小连接，dh: destination hashing目的地址哈希，sh: source hashing源地址哈希，sed: shortest expected delay最小期望延迟，nq: never queue不排队。
+
+一个Nginx ingress controller为你提供的服务，其实是一个可以根据ingress对象和被代理后端service的变化，来自动进行更新的nginx负载均衡器。
 
 ## 13、etcd的raft
 
 [](https://zhuanlan.zhihu.com/p/91288179)
 
-## 14、
+## 14、Qos(服务质量保证)
 
-kubelet：操作docker等容器的核心，除了跟容器运行时打交道，在配置容器网络、管理容器数据卷，都需要操作宿主机
+- BestEffort：容器必须没有任何内存或cpu的限制或请求
+- Burstable：pod里至少有一个容器有内存或cpu请求且不满足Graranteed等级的要求，即内存/cpu的值设置的不同
+- Guaranteed：pod的每个容器都有cpu和内存的限制和请求，而且值必须相等
+
+## 15、kubelet监控节点资源使用时通过什么组件来实现的？
+
+主要通过cAdvisor监控容器运行状态，当kubelet服务启动时，自动启动cadvisor，会定时采集所在节点的性能指标及在节点上运行的容器性能指标。
+
+## 16、污点和容忍度
+
+污点`taints`是定义在节点上的键值型属性数据，用于节点拒绝pod调度运行，除非pod对象具有容忍节点污点的容忍度。
+
+容忍度`tolerations`是定义在pod对象上的键值型数据，用于配置其可容忍的节点污点，而且调度器仅能将pod对象调度到其能够容忍该节点污点的结点上。
+
+节点选择器`nodeSelector`和节点亲和性`nodeAffinity`两种调度方式都是通过在pod对象上添加标签选择器来完成对特定类型节点标签的匹配，它们的实现是pod选择节点的机制。
+
+![k8s污点和容忍度](https://www.cnblogs.com/baozexu/p/13705680.html)
