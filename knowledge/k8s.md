@@ -114,9 +114,25 @@ limit:容器能使用的资源的最大值
 
 如果内存超出限制，容器被被oom
 
-## 9、一个请求到pod接受响应，经过哪些过程
+## 9、jaeger架构？
 
+![](https://gitee.com/zongl/cloudImage/raw/master/images/2021/03/08/jaeger.png)
 
+- jaeger-client：通常第一个参数为ctx
+  * 提取请求头中的traceID
+  * 注入spanID
+  * 异步report，放入队列中，report从队列中取出，生成thrift，flush到agent
+- jaeger-agent:负责上报数据的整理，rpc
+  * 接受client数据，放入队列
+  * 从队列中获取数据，进行校验
+  * 提交数据
+- jaeger-collector：负责数据的保存，rpc
+  * 接受agent的数据
+  * 放入队列
+  * 从队列中拿出来，写入数据库
+- jaeger-query：负责数据查询
+
+[jaeger集成及源码分析](https://bytemode.github.io/reading/29-2019-01-23-opentracing-jaeger-in-go/)
 
 ## 10、prometheus监控架构？采集数据流向
 
