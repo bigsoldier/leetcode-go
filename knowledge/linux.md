@@ -196,5 +196,5 @@ select、poll，epoll本质上都是同步IO，因为他们都需要在读写事
 - 阻塞
 - 死亡
 
-## 13、top命令
+## 13、top命令和ctop
 
