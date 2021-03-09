@@ -151,11 +151,37 @@ promQL和其他可视化api可视化的展示收集的数据，并通过Alertman
 - exporter/jobs：负责收集目标对象的性能数据，并通过http接口供prometheus server获取。
 - pushgateway：主要用于短期jobs，由于这类jobs存在时间比较短，可能在prometheus来pull之前就消失了。
 - Alertmanager：接受到alerts后，会进行去除重复，分组，发出告警。
-- service discovery服务发现：支持多种服务发现机制：文件、dns、k8s
+- service discovery服务发现：支持多种服务发现机制：文件、dns、k8s（使用的是endpoints）
 
 **存储**
 
 TSDB时序数据库，将监控数据以时间段翟芬不同的block，并且会压缩合并历史数据；引入wal，避免宕机导致的数据丢失问题。
+
+```
+./data
+├── 01BKGV7JBM69T2G1BGBGM6KB12
+│   └── meta.json
+├── 01BKGTZQ1SYQJTR4PB43C8PD98
+│   ├── chunks
+│   │   └── 000001
+│   ├── tombstones
+│   ├── index
+│   └── meta.json
+├── 01BKGTZQ1HHWHV8FBJXW1Y3W0K
+│   └── meta.json
+├── 01BKGV7JC0RY8A6MACW02A2PJD
+│   ├── chunks
+│   │   └── 000001
+│   ├── tombstones
+│   ├── index
+│   └── meta.json
+├── chunks_head
+│   └── 000001
+└── wal
+    ├── 000000002
+    └── checkpoint.00000001
+        └── 00000000
+```
 
 block包括chunk，index，meta.json，tombstones。
 
@@ -172,6 +198,17 @@ block包括chunk，index，meta.json，tombstones。
 - wal：预写日志，方便数据回滚、重试等操作保证数据的可靠性。为了防止暂存在内存中还未写入磁盘的监控数据
 
 [prometheus存储层演进](https://xie.infoq.cn/article/9071f261190acbdf73dfcf4d7)
+
+**服务发现kubernetes**
+
+node、pod、service、endpoints、ingress
+
+**数据类型**
+
+- Counter：计数器类型，记录事件的次数，只增不减
+- Gague：仪表盘类型，可增可减的指标类
+- Summary：摘要类型，一段时间的数据采样结果
+- Histogram：直方图类型，提供分位数
 
 ## 11、k8s整体架构
 
