@@ -134,6 +134,17 @@ limit:容器能使用的资源的最大值
 
 [jaeger集成及源码分析](https://bytemode.github.io/reading/29-2019-01-23-opentracing-jaeger-in-go/)
 
+**客户端采样配置**
+- const：采样器始终对所有trace做相同处理，要么采样所有trace，要么全不采样
+- probabilistic：随机采样，取决于sample.param的值，如果sample.param=0.1时，
+- ratelimiting：使用限速器来确保以恒定速率对trace进行采样，如sample.param=2.0，以每秒2 trace进行采样
+- remote：默认，使用jaeger后台的采用策略，自适应采样器
+
+  * 它基于每个操作（即基于跨度操作名称）做出抽样决策。 这在API服务中特别有用，这些API服务的端点的流量可能非常不同，并且对整个服务使用单个概率采样器可能会使某些低QPS端点饿死（从不采样）。
+  * 它支持最低的保证采样率，例如始终允许每秒最多N条trace，然后以一定的概率（高于每个操作，而不是每个服务）对高于此值的任何值进行采样。
+  
+  [官方文档](https://www.jaegertracing.io/docs/1.22/sampling/)
+
 ## 10、prometheus监控架构？采集数据流向
 
 查询节点的数据来源于cadvisor
