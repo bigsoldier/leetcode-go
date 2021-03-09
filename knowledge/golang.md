@@ -20,8 +20,13 @@ go程序启动时向操作系统申请一块内存（虚拟的地址空间，并
 
 **分配流程**
 
+在栈上内存管理简单，分配比堆快。栈上的内存回收不需要程序关心，而堆需要GC。
+
 变量是在栈上分配的还是在堆上分配的，是由逃逸分析的结果决定的。`go build -gcflags '-m -l' main.go`
 内存分配器在分配对象时，会根据对象的大小进行分配：tiny对象（小于16B），小对象（大于16B，小于32KB），大对象（大于32KB）
+
+mcache, mcentral, mheap是Go内存管理的三大组件，层层递进。
+mcache管理线程在本地缓存的mspan；mcentral管理全局的mspan供所有线程使用；mheap管理Go的所有动态分配内存。
 
 - 32KB的对象在mheap分配
 - `<=16B`的对象使用mcache的tiny分配器分配
@@ -30,6 +35,7 @@ go程序启动时向操作系统申请一块内存（虚拟的地址空间，并
  * 如果mcentral没有相应规格大小的mspan，向mheap申请
  * 如果mheap没有相应规格大小的mspan，向操作系统申请
 
+[内存分配](https://www.cnblogs.com/shijingxiang/articles/11466957.html)
 [内存分配](https://juejin.cn/post/6844903795739082760)
 
 **v1.3之前的标记-清除（mark and sweep）算法
@@ -120,6 +126,8 @@ golang在运行时存在两种队列，一种是全局队列，存放等待运�
 
 **调度器的设计策略**
 
+复用线程：避免频繁的创建、销毁线程，而是对线程的复用。协程在用户态线程即完成切换，不会陷入到内核态，这种切换非常的轻量快速。
+
 - work stealing机制
 当本线程无可运行的G时，尝试从其他线程绑定的P中偷走G，而不是销毁线程
 - hand off机制
@@ -175,7 +183,8 @@ type Context interface {
 	Value(key interface{}) interface{}
 }
 ```
-
+context包通过构建树型关系的Context，来达到上一层Goroutine能对传递给下一层Goroutine的控制。
+对于处理一个Request请求操作，需要采用context来层层控制Goroutine，以及传递一些变量来共享。
 主要作用还是在多个goroutine组成的树中同步取消信号，以减少对资源的消耗和占用。
 
 - Backgroupd(): 返回一个非nil，空的context，它不会被取消，没有值，也不过超时。通常用在main函数、初始化、和测试用例中，是顶级context
@@ -264,6 +273,13 @@ map不能顺序读取，是因为他是无序的，想要有序读取，就要�
 - unsafe.Pointer可以和uintptr进行相互转换
 
 ## 23、mutex的两种工作模式
+
+```go
+type Mutex struct {
+	state int32 // 状态
+	sema  uint32
+}
+```
 - 正常模式
 
 所有等待锁的goroutine按照FIFO顺序等待。唤醒的goroutine不会直接拥有锁，而是会和新请求锁的goroutine竞争锁的拥有。
