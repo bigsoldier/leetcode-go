@@ -128,3 +128,50 @@ chroot是针对进程，而系统的其他部分仍运行在老的root目录
 - 配置（Configuration）：描述容器的根文件系统和容器运行时使用的执行参数，还有一些镜像的元数据。
   * 在配置规范里定义了镜像的文件系统的组成方式。镜像文件系统由若干镜像层组成，每一层都是tar包，除了底层（base image），其余层都是记录了父层向下一层文件系统的变化集（changeset）
 - 层文件（Layers）：镜像的根文件由多个层文件叠加而成，每个层文件在分发时都被打成了tar包
+
+## 9、网络
+
+- host模式：容器和宿主机共享network namespace
+- container模式：容器和另外一个容器共享一个network namespace
+- none模式：独立的network namespace，但没有对其进行任何的网络配置
+- bridge模式：默认，docker启动时会在主机创建一个docker0的虚拟网桥，此主机上的所有容器都会连接在虚拟网桥上。虚拟网桥的工作方式与物理交换机类似，这样主机上所有的容器通过交换机连在了一个二层网络中。
+从docker0分配一个IP给容器使用，并配置docker0的IP地址为容器的默认网关。
+docker在创建一个容器时，会创建一对veth pair，一端置于容器中，一端置于docker0的虚拟网络中，从而实现网桥和容器的通信。
+将容器中的veth(virtual ETHernet,将一个network namespace发出的数据包转发到另一个namespace)命名为eth0，docker0为网桥中的veth指定唯一的名字，从docker0中可用的地址段选取一个分配给容器，并配置默认路由。
+
+同一个Node上Pod通信
+
+poda的eth0->poda的veth->bridge0->podb的veth->podb的eth0
+
+跨主机访问，网络插件cni：
+flannel的三种实现方式：VXLAN；host-gw；UDP。
+
+CNI的设计思想：kubernetes在启动infra容器后，可以直接调用CNI网络插件，为这个infra容器的network namespace配置符合预期的网络栈。
+
+- UDP：性能差
+
+操作系统将一个IP包发送给flannel0设备后，flannel0会把这个IP包交给创建这个设备的flannel进程，是内核态向用户态流动的方向。
+fannel进程向flannel0设备发送了一个IP包，那么这个IP包会出现在宿主机的网络栈中，然后根据宿主机的路由表进行下一步处理，是用户态向内核态流动的方向。
+
+三层overlay网络：首先对发出端的IP包进行UDP封装，然后在接收端进行解封装拿到原始IP包，进而把IP包转发给pod。
+
+相比两台宿主机的直接通信，fannel UDP模式的容器多了flanneld的处理，在发出IP包的过程中，经过了三次内核态与用户态的数据拷贝。
+
+* 第一次，用户态的容器进程发出的IP包经过docker0网桥进入内核态
+* IP包根据路由表进入TUN(flannel0)设备，从而回到用户态flanneld进程
+* flanneld进行UDP封包之后重新进入内核态，将UDP包通过宿主机的eth0发出去
+
+- VXLAN(Virtual Extensible LAN)虚拟可扩展局域网：Linux内核本身支持的一种网络虚拟化技术。
+
+设计思想：在现有的三层网络之上，“覆盖”一层虚拟的、由内核VXLAN模块负责的二层网络，使得连接在VXLAN二层网络上的“主机”之间可以像在同一个局域网(LAN)通信。
+
+VXLAN会在宿主机上设置一个特殊的网络设备VTEP(VXLAN Tunnel End Point)虚拟隧道断点，对二层数据帧进行封装和解封装，这个执行流程是在内核中完成的
+
+- host-gw：就是将每个flannel子网的“下一跳”设置成该子网对应的宿主机的IP地址
+
+Calico提供的网络解决方案和flannel的host-gw几乎一样。不同于flannel通过etcd和宿主机上的flanneld来维护路由信息的做法，
+calico通过BGP(Border Gateway Protocol边界网关协议)来自动在集群里分发路由信息。
+calico不会再宿主机上创建任何网桥设备，只会为每个容器设置一个veth pair设备，然后把其中一端放置在宿主机上。所以calico的cni插件需要在宿主机上为每个容器的veth pair设备配置一条路由规则，用于接收传入的IP包。
+
++ 三层网络的优点：不需要封包、拆包，传递效率高，是可以设置复杂的路由规则
++ 隧道模式的优点：不需要在主机间的网关维护容器的路由信息，只需要主机有三层网络的连通性

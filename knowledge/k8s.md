@@ -82,29 +82,17 @@ Ready这个状态标识pod已经正常启动，并且可以对外提供服务。
 ## 5、deployment、statefulset有什么区别
 
 - deployment用来部署无状态服务，statefulset用来部署有状态服务
-- statefulset
 
 headles service的dns解析：service.namespace.svc.cluster.local
 pod的dns解析 hostname.service.namespace.svc.cluster.local
 
 ## 6、crd和operator
 
+
+
 ## 7、cni？k8s集群使用的网络插件
 
-**flannel**
 
-- UDP
-
-提供的其实是一个三层的Overlay网络：首先对发出端的IP包进行UDP封装，然后再接收端进行解封拿到原始的IP包，进而把这个IP包转发给目标容器。
-
-* 缺点：相比两台主机直接通信，多了flanneld的处理过程，而这个过程，由于使用了flannel0这个TUN设备(在操作系统内核和用户应用程序之间传递IP包),
-,仅在发出IP包的过程中，就需要经历三次用户态和内核态之间的数据拷贝
-
-- VXLAN(Virtual Extensible LAN虚拟可扩展局域网)
-
-是linux内核本身支持的一种网络虚拟化技术。
-
-- host-gw
 
 ## 8、为什么pod资源有request和limit
 
@@ -232,7 +220,7 @@ node、pod、service、endpoints、ingress
 
 **master节点**
 - etcd：保存了集群的状态，存储了所有的集群资源对象
-- apiserver：提供资源操作的唯一入口，并提供认证、授权、访问控制、api注册和发现等机制
+- apiserver：提供资源操作的唯一入口，并提供认证、授权、访问控制、api注册和服务发现等机制
 - controller manager负责维护集群的状态，比如故障检测、自动扩展、滚动更新等
 - scheduler负责资源的调度，按照预定的调度策略将pod调度到相应的机器上
 

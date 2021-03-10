@@ -26,7 +26,7 @@ go程序启动时向操作系统申请一块内存（虚拟的地址空间，并
 内存分配器在分配对象时，会根据对象的大小进行分配：tiny对象（小于16B），小对象（大于16B，小于32KB），大对象（大于32KB）
 
 mcache, mcentral, mheap是Go内存管理的三大组件，层层递进。
-mcache管理线程在本地缓存的mspan；mcentral管理全局的mspan供所有线程使用；mheap管理Go的所有动态分配内存。
+mcache管理M在本地缓存的mspan；mcentral管理全局的mspan供所有线程使用；mheap管理Go的所有动态分配内存。
 
 - 32KB的对象在mheap分配
 - `<=16B`的对象使用mcache的tiny分配器分配
@@ -63,14 +63,19 @@ mcache管理线程在本地缓存的mspan；mcentral管理全局的mspan供所�
 
 但是仍需要STW，因为在标记过程中，白色对象可以被黑色对象引用，他们之间的可达关系可能会遭到破坏
 
+* 弱三色不等式：所有被黑色对象引用的白色对象都处于灰色保护状态
+* 强三色不等式：不存在黑色到白色指针的对象
+
 - 插入屏障：被黑色对象引用的对象强制变为灰色对象
 - 删除屏障：被删除的对象，如果本身是灰色或白色，则被标记为灰色
 
 **v1.8的混合写屏障（hybird write barrier）**
 
-插入写屏障和删除写屏障的短板
+插入写屏障和删除写屏障的短板：
 - 插入写屏障：结束时仍需要STW来重新扫描栈，标记栈上引用的白色对象存活
 - 删除写屏障：回收精度低，GC开始时STW扫描堆栈来记录初始快照，这个过程会保护开始时刻的所有存活对象。
+
+混合写屏障的规则
 
 1、GC开始将栈上所有的对象全部扫描标记为黑色（之后不再进行第二次重复扫描，无需STW）
 
@@ -82,11 +87,20 @@ mcache管理线程在本地缓存的mspan；mcentral管理全局的mspan供所�
 
 [GC垃圾](https://segmentfault.com/a/1190000022030353)
 
-**何时触发GC**
+**何时触发GC**：会通过gcTrigger的test函数来决定是否需要触发GC
 - `runtime.GC()`强制启动GC
 - 再分配内存时，判断当前内存是否达到阈值会触发新一轮GC（比如当前为4MB，GOGC=100，4MB+4MB*GOGC/100）
+- 上次GC间隔达到了runtime.forcegcperiod(默认2分钟)，会启动GC
 
-**内存逃逸**：变量通过了校验，可以在栈上分配；逃逸了，必须在堆上分配
+**GC调优**
+
+1、合理化内存分配速度
+
+2、降低并复用已经申请的内存
+
+3、调整GOGC
+
+**内存逃逸**：变量通过了校验，可以在栈上分配；逃逸了，必须在堆上分配（编译期间逃逸分析）
 
 - 在方法内把局部变量指针返回：局部变量原本应该在栈中分配，在栈中回收。但由于返回时被外部引用，因此生命周期大于栈，则溢出
 - 发送指针或带有指针的值到channel
@@ -130,9 +144,10 @@ golang在运行时存在两种队列，一种是全局队列，存放等待运�
 
 - work stealing机制
 当本线程无可运行的G时，尝试从其他线程绑定的P中偷走G，而不是销毁线程
-- hand off机制
+- hand off机制:
 当本线程因为G进行系统调用阻塞时，线程释放绑定的P，把P转移给其他空闲的线程执行。
- 抢占：在goroutine中要等待一个协程主动让出cpu才执行下一个协程，一个goroutine最多占用cpu 10ms，防止其他goroutine被饿死
+ + 利用并行：`GOMAXPROCS`设置p的数量，最多有`GOMAXPROCS`个线程分布在多个cpu同时运行。
+ + 抢占：在goroutine中要等待一个协程主动让出cpu才执行下一个协程，一个goroutine最多占用cpu 10ms，防止其他goroutine被饿死
 
 **go func()流程**
 ![](https://gitee.com/zongl/cloudImage/raw/master/images/2021/02/26/gpm2.jpeg)
@@ -173,7 +188,7 @@ golang在运行时存在两种队列，一种是全局队列，存放等待运�
 
 ```go
 type Context interface {
-    // 返回context被取消的时间
+    // 返回context被取消的时间，也是完成工作的截止时间
 	Deadline() (deadline time.Time, ok bool)
     // 返回一个channel，这个channel会在当前工作完成或上下文被取消后关闭
 	Done() <-chan struct{}
@@ -183,12 +198,14 @@ type Context interface {
 	Value(key interface{}) interface{}
 }
 ```
-context包通过构建树型关系的Context，来达到上一层Goroutine能对传递给下一层Goroutine的控制。
+context包通过构建树型关系的Context，来达到上一层Goroutine能对传递给下一层Goroutine的控制，在不同的goroutine之间对信号进行同步避免对计算资源的浪费
 对于处理一个Request请求操作，需要采用context来层层控制Goroutine，以及传递一些变量来共享。
 主要作用还是在多个goroutine组成的树中同步取消信号，以减少对资源的消耗和占用。
 
 - Backgroupd(): 返回一个非nil，空的context，它不会被取消，没有值，也不过超时。通常用在main函数、初始化、和测试用例中，是顶级context
 - TODO()：当不清楚context什么时候用，便于后期重构，先占个位。
+
+![context的使用](https://segmentfault.com/a/1190000024441501)
 
 ## 7、client长连接
 
@@ -276,7 +293,7 @@ map不能顺序读取，是因为他是无序的，想要有序读取，就要�
 
 ```go
 type Mutex struct {
-	state int32 // 状态
+	state int32 // 状态 , 第一位表示是否被锁，第二位表示是否唤醒，第3-32位表示等待的协程数量。1是锁，10是唤醒，11是饥饿
 	sema  uint32
 }
 ```

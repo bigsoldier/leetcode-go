@@ -22,8 +22,8 @@
 
 猜想：
 - 频繁重复申请对象资源，查看pprof，查看内存，cpu，goroutine的使用
-- 不知名的内存泄露，top命令查看，VSZ指标高
-- prometheus的监控判别条件有问题，container_memory_working_set_bytes = RSS+Cache
+- 不知名的内存泄露，top命令查看，VSZ(Virtual Memory Size)指标高
+- prometheus的监控判别条件有问题，container_memory_usage_bytes = /container_memory_working_set_bytes = RSS+Cache
 - go语言机制：
   * MADV_DONTNEED:内核会在进程的页表将这些页标记为"未分配"，从而进程的RSS就会尽快释放和变小。OS后续可以将对应的物理页分配给其他进程
   * MADV_FREE：内核只会在页表中将这些进程页面标记为可回收，在需要的时候才回收这些页面。(GO1.12-1.15)
