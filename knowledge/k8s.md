@@ -82,6 +82,7 @@ Ready这个状态标识pod已经正常启动，并且可以对外提供服务。
 ## 5、deployment、statefulset有什么区别
 
 - deployment用来部署无状态服务，statefulset用来部署有状态服务
+- deploy服务的pod名称随机，ip只有在运行时才能确定并且有可能是变动的，而sts的每个pod有稳定唯一的网络标识，pod副本的启动顺序是受控的，而且还要声明它的headless service(没有Cluster IP)
 
 headles service的dns解析：service.namespace.svc.cluster.local
 pod的dns解析 hostname.service.namespace.svc.cluster.local
