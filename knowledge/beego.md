@@ -2,6 +2,23 @@
 
 ## 2、beego的路由算法
 
+```go
+// Tree has three elements: FixRouter/wildcard/leaves
+// fixRouter stores Fixed Router
+// wildcard stores params
+// leaves store the endpoint information
+type Tree struct {
+	//prefix set for static router
+	prefix string
+	//search fix route first
+	fixrouters []*Tree
+	//if set, failure to match fixrouters search then search wildcard
+	wildcard *Tree
+	//if set, failure to match wildcard search
+	leaves []*leafInfo
+}
+```
+
 ## 3、如何调试golang的bug和性能问题？
 - panic调用栈
 - pprof
@@ -64,3 +81,17 @@ gitlab需要我们在构建服务之前打tag，由于nginx的work_processes有�
 使用了helm的功能，对比优化了helm repo，不在容器内部做仓库管理，不做缓存，加快了安装的整体速度。
 
 下载和安装功能使用条件变量来阻塞并发，协调响应访问共享资源的线程，直到有下载安装的请求，调用signal来唤醒阻塞线程，
+
+## 8、如何CICD
+
+jenkins的slave节点以容器的形式运行在一个pod中，根据pod中的不同配置，会运行maven/npm/docker/helm等若干容器，所有容器共享网络和存储。
+- 首先slave容器拉取项目配置的源码到pod中
+- 根据jenkinsfile定义，通过maven/npm完成前后端编译工作
+- 根据dockerfile的配置和上一步生成的结果，docker容器完成镜像构建，并推送到镜像仓库
+- 最后在helm容器根据编写的k8s资源文件将docker镜像发布在环境中
+
+## 9、docker和podman不同
+
+- docker需要守护进程，podman不需要
+- docker需要root用户来创建容器，podman不需要
+- 启动容器的方式不同，docker调用containerd，containerd调用containerd-shim，才能调用runc，而podman直接调用runc

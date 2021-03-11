@@ -94,6 +94,8 @@ chroot是针对进程，而系统的其他部分仍运行在老的root目录
 - 优点：合并进内核
 - 缺点：硬连接的方式会引发inode耗尽的问题，整体不成熟
 
+Overlay2是当前所有受支持的linux发行版的首选存储程序
+
 3、 Device mapper：从逻辑设备到物理设备的映射框架机制，在设备创建一个资源池，然后在资源池上创建一个带有文件系统的基本设备，所有镜像都是这个基本设备的快照，
 而容器是镜像的快照。所以在容器里看到文件系统是资源池上基本的文件系统的快照，并不为容器分配空间。 块级存储
 
@@ -111,7 +113,15 @@ chroot是针对进程，而系统的其他部分仍运行在老的root目录
 - 优点：拥有较好的性能，有配额的支持
 - 缺点：没有基于文件(inode)的共享达到内库共享
 
+**总结**
++ overlay2，aufs，overlay都在文件级别，这样可以更有效地使用内存，但在写繁重的工作负载中，容器的可写层可能会变得非常大
++ 块级存储器：devicemapper，btrfs，zfs更好地为写繁重的工作负载
++ 对于许多小型写入或具有多层或深文件系统的容器，overlay的性能比overlay2更好，但会消耗更多的inode，这可能导致inode耗尽
++ btrfs和zfs需要大量的内存
++ zfs对于高密度工作负载是一个不错的选择
+
 [docker 面试](https://www.jianshu.com/p/2de643caefc1)
+[docker storage driver](https://docs.docker.com/storage/storagedriver/select-storage-driver/)
 
 ## 7、docker预热
 
