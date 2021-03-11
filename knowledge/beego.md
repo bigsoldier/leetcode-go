@@ -41,7 +41,7 @@ func main() {
 		wg.Add(1)
 		go func(wg sync.WaitGroup,i int) {
 			defer wg.Done()
-			fmt.Println(i)
+			fmt.Println(i) 
 		}(wg,i)
 	}
 	wg.Wait()
@@ -64,3 +64,7 @@ gitlab需要我们在构建服务之前打tag，由于nginx的work_processes有�
 使用了helm的功能，对比优化了helm repo，不在容器内部做仓库管理，不做缓存，加快了安装的整体速度。
 
 下载和安装功能使用条件变量来阻塞并发，协调响应访问共享资源的线程，直到有下载安装的请求，调用signal来唤醒阻塞线程，
+
+## 8、beego缓存
+
+memcache，redis，file，memory
