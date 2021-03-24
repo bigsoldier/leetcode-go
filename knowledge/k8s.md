@@ -274,3 +274,47 @@ IPVS提供了6种选项来平衡后端Pod的流量，包括rr: round-robin轮询
 节点选择器`nodeSelector`和节点亲和性`nodeAffinity`两种调度方式都是通过在pod对象上添加标签选择器来完成对特定类型节点标签的匹配，它们的实现是pod选择节点的机制。
 
 ![k8s污点和容忍度](https://www.cnblogs.com/baozexu/p/13705680.html)
+
+## 17、如何实现零中断更新服务
+
+### 为什么会发生服务中断？
+
+#### 新建pod
+
+deployment滚动更新时会先创建新pod，等待新pod running后再删除旧pod
+- 中断原因：pod running后被加入到endpoint后端，容器服务监控到endpoint变更后将节点node加入到slb后端，此时请求从slb转发到pod中，但pod业务代码未初始完毕，无法处理请求，导致服务中断
+- 解决方法：为pod添加就绪检查，等待业务代码初始化完毕后将node加入slb后端
+
+#### 删除旧pod
+
+** 删除pod的过程**
+
+1、pod状态变更：将pod设置为terminating状态，并从所有service的endpoint列表中删除。此时pod停止获得新的流量，但在pod中运行的容器不会受到影响
+
+2、执行preStop Hook：pod删除时会触发preStop Hook，preStop Hook支持bash脚本、TCP或HTTP请求
+
+3、发送SIGTERM信号：向pod中的容器发送SIGTERM信号
+
+4、等待指定的时间：terminationGracePeriodSeconds字段用于控制等待时间，默认30s。该步骤与preStop Hook同步执行，因此terminationGracePeriodSeconds需要大于preStop时间，否则会出现preStop未执行完成pod被kill的情况
+
+5、发送SIGKILL信号：等待指定时间后，向pod中的容器发送SIGKILL信号，删除pod
+
+- 中断原因：上述1、2、3、4步骤同时进行，因此有可能出现pod收到SIGTERM信号后并停止工作，但未从endpoint中移除的情况。
+- 解决方法：为pod设置preStop Hook，使pod收到SIGTERM时sleep一段时间而不是立即停止工作，从而确保从SLB转发的流量可以继续被pod处理
+
+**iptables/ipvs**
+
+- 中断原因：当pod变为terminating，会从所有service的endpoint中移除pod。kube-proxy会清理对应的iptables/ipvs条目，而容器服务watch到endpoint变化后，会调用slb api移除后端。
+由于这两步是同时进行，因此有可能存在节点上的iptables/ipvs条目被清理，但节点未从slb移除的情况。此时，流量从slb流入，而节点上没有对应的iptables/ipvs规则导致服务中断。
+- 解决方法：
+  + Cluster模式：Cluster模式下，kube-proxy会把所有业务pod写入node的iptables/ipvs中，如果当前pod没有业务pod，则改请求会被转发给其他node，因此不会出现服务中断
+  + Local模式：kube-proxy仅会把node上的pod写入iptables/ipvs。当node上只有一个pod且状态变为terminating时，iptables/ipvs会将pod记录移除。此时请求转发到这个node时，无对应的iptables/ipvs记录，导致请求失败。
+  这个问题可以通过原地升级来避免，即保证更新过程中node上至少有一个running pod，原地升级可以保障node的iptables/ipvs总会有一条业务pod记录，因此不会服务中断
+  + ENI模式Service（阿里云模式）：ENI模式绕过kube-proxy，将pod直接挂载到SLB后端，因此不存在因为iptables/ipvs导致的服务中断
+  
+**SLB**
+
+- 中断原因：容器服务监控到endpoint变化后，将node从slb中移除，当节点从slb后端移除后，slb对于发送该节点的长连接会断开导致服务中断
+- 解决方法：为slb设置长连接优雅中断（依赖云厂商）
+
+[更新应用时，如何实现零中断](https://blog.csdn.net/alisystemsoftware/article/details/106520606)
