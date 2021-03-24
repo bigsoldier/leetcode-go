@@ -58,7 +58,7 @@ func main() {
 		wg.Add(1)
 		go func(wg sync.WaitGroup,i int) {
 			defer wg.Done()
-			fmt.Println(i)
+			fmt.Println(i) 
 		}(wg,i)
 	}
 	wg.Wait()
@@ -82,7 +82,11 @@ gitlab需要我们在构建服务之前打tag，由于nginx的work_processes有�
 
 下载和安装功能使用条件变量来阻塞并发，协调响应访问共享资源的线程，直到有下载安装的请求，调用signal来唤醒阻塞线程，
 
-## 8、如何CICD
+## 8、beego缓存
+
+memcache，redis，file，memory
+
+## 9、如何CICD
 
 jenkins的slave节点以容器的形式运行在一个pod中，根据pod中的不同配置，会运行maven/npm/docker/helm等若干容器，所有容器共享网络和存储。
 - 首先slave容器拉取项目配置的源码到pod中
@@ -90,7 +94,7 @@ jenkins的slave节点以容器的形式运行在一个pod中，根据pod中的�
 - 根据dockerfile的配置和上一步生成的结果，docker容器完成镜像构建，并推送到镜像仓库
 - 最后在helm容器根据编写的k8s资源文件将docker镜像发布在环境中
 
-## 9、docker和podman不同
+## 10、docker和podman不同
 
 - docker需要守护进程，podman不需要
 - docker需要root用户来创建容器，podman不需要

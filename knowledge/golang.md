@@ -98,9 +98,13 @@ mcache管理M在本地缓存的mspan；mcentral管理全局的mspan供所有线�
 4、被添加的对象标记为灰色
 
 [GC垃圾](https://segmentfault.com/a/1190000022030353)
+[](https://www.cnblogs.com/shijingxiang/articles/11466957.html)
+[gc简明教程](https://zhuanlan.zhihu.com/p/92210761)
 [垃圾回收](https://zhuanlan.zhihu.com/p/74853110)
 
 **何时触发GC**：会通过gcTrigger的test函数来决定是否需要触发GC
+
+`/runtime/mgc.go gcTrigger.test()`
 - `runtime.GC()`强制启动GC
 - 再分配内存时，判断当前内存是否达到阈值会触发新一轮GC（比如当前为4MB，GOGC=100，4MB+4MB*GOGC/100）
 - 上次GC间隔达到了runtime.forcegcperiod(默认2分钟)，会启动GC
@@ -277,11 +281,18 @@ map不能顺序读取，是因为他是无序的，想要有序读取，就要�
 
 多路快排，然后再归并。
 
-## 15、
+## 15、进程、线程、协程的区别
 
-## 16、
+- 进程：进程具有一定独立功能的程序,有独立的内存空间，不同进程通过进程间通信来通信
+- 线程：从属于进程，是进程的一个实例，是cpu调度和分派的基本单位，不拥有系统资源
+- 协程：是用户态的轻量级线程，协程的调度完全由用户控制，有自己的寄存器和上下文
 
-## 17、
+## 16、有缓冲通道是异步的，无缓冲通道是同步的
+
+## 17、golang基础数据类型
+- 数字类型：整型，浮点型，复数，int是32位还是64位看cpu
+- 布尔型
+- 字符串
 
 ## 18、
 
