@@ -1,7 +1,9 @@
 ### 暴力匹配
+
 有一个字符串S和一个模式串P，现在要查找P在S中的位置。
 
 如果用暴力匹配的思路，假设字符串匹配到i位置，模式串匹配到j位置，现有：
+
 - 如果当前字符串匹配成功(即S[i]=P[j])，则i++，j++，继续匹配下一个字符
 - 如果失败(即S[i]!=P[j])，令i=i-(j-1)，j=0，相当于每次匹配失败，i回溯，j重置
 
@@ -14,14 +16,14 @@ func violentMatch(s, p string) int {
 			i++
 			j++
 		} else {
-i = i -j + 1
-j = 0
-}
-}
-if j == pLen {
-return i-j
-}
-return -1
+			i = i -j + 1
+			j = 0
+		}
+	}
+	if j == pLen {
+		return i-j
+	}
+	return -1
 }
 ```
 
@@ -64,35 +66,37 @@ P:      ABCDABD
 
 ```go
 func kmpSearch(s, p string) int {
-var i, j int
-sLen, pLen := len(s), len(p)
-next := subStringRepetition(p)
-for i < sLen && j < pLen {
-if j == -1 || s[i] == p[j] {
-i++; j++
-} else {
-j = next[j]
-}
-}
-if j == pLen {
-return i - j
-}
-return -1
+	var i, j int
+	sLen, pLen := len(s), len(p)
+	next := subStringRepetition(p)
+	for i < sLen && j < pLen {
+		if j == -1 || s[i] == p[j] {
+			i++
+			j++
+		} else {
+			j = next[j]
+		}
+	}
+	if j == pLen {
+		return i - j
+	}
+	return -1
 }
 
 func subStringRepetition(str string) []int {
-n := len(str)
-next := make([]int, n+1)
-next[0] = -1
-i,j := 0, -1
-for i < n {
-if j == -1 || str[i] == str[j] {
-i++; j++
-next[i] = j
-} else {
-j = next[j]
-}
-}
-return next
+	n := len(str)
+	next := make([]int, n+1)
+	next[0] = -1
+	i, j := 0, -1
+	for i < n {
+		if j == -1 || str[i] == str[j] {
+			i++
+			j++
+			next[i] = j
+		} else {
+			j = next[j]
+		}
+	}
+	return next
 }
 ```
