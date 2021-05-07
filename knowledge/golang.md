@@ -224,7 +224,7 @@ context包通过构建树型关系的Context，来达到上一层Goroutine能对
 - Backgroupd(): 返回一个非nil，空的context，它不会被取消，没有值，也不过超时。通常用在main函数、初始化、和测试用例中，是顶级context
 - TODO()：当不清楚context什么时候用，便于后期重构，先占个位。
 
-![context的使用](https://segmentfault.com/a/1190000024441501)
+[context的使用](https://segmentfault.com/a/1190000024441501)
 
 ## 7、client长连接
 
@@ -287,9 +287,12 @@ map不能顺序读取，是因为他是无序的，想要有序读取，就要�
 - 线程：从属于进程，是进程的一个实例，是cpu调度和分派的基本单位，不拥有系统资源
 - 协程：是用户态的轻量级线程，协程的调度完全由用户控制，有自己的寄存器和上下文
 
+[进程、线程、协程的区别](https://mp.weixin.qq.com/s/vW5n_JWa3I-Qopbx4TmIgQ)
+
 ## 16、有缓冲通道是异步的，无缓冲通道是同步的
 
 ## 17、golang基础数据类型
+
 - 数字类型：整型，浮点型，复数，int是32位还是64位看cpu
 - 布尔型
 - 字符串
