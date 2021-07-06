@@ -349,8 +349,28 @@ type Mutex struct {
 
 [](https://www.cnblogs.com/zzdbullet/p/10512670.html)
 
-## 25、
+## 25、如何主动关闭http连接
 
+1、直接设置请求变量的`Close`字段值为`true`，每次请求结束后都会主动关闭连接。
+或者设置Header请求头`Connection:Close`，然后服务器返回的响应头部也会有这个选项。
+
+```go
+    req,err := http.NewRequest("Get",url,nil)
+	if err != nil {
+		panic(err)
+	}
+	req.Close = true
+	// req.Header.Add("Connection","Close")
+```
+
+2、使用`Transport.DisableKeepAlives`来取消http全局的复用连接
+
+```go
+    tr := http.Transport{DisableKeepAlives: true}
+	client := http.Client{Transport: &tr}
+	
+	client.Get(url)
+```
 
 ## 26、
 
